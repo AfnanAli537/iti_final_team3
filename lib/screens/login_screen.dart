@@ -45,10 +45,13 @@ class LoginPage extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Image.asset(
-                          'assets/images/logo.jpg',
-                          height: 100,
-                          width: 100,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            'assets/images/logo.jpg',
+                            height: 100,
+                            width: 100,
+                          ),
                         ),
                         Text(
                           AppStrings.openWord,

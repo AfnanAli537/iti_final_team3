@@ -32,7 +32,7 @@ class MainApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'inspiration App',
-        themeMode: ThemeMode.dark,
+        themeMode: ThemeMode.light,
         theme: AppThemes.lightTheme,
         debugShowCheckedModeBanner: false,
         routes: {
