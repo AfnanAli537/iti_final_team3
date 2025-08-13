@@ -27,10 +27,11 @@ class AppThemes {
     textTheme: const TextTheme(
       bodyMedium: AppTextStyles.subheading,
       titleLarge: AppTextStyles.heading,
+      displayLarge: AppTextStyles.title,
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        backgroundColor: AppColors.whiteApp,
+        // backgroundColor: AppColors.whiteApp,
         textStyle: TextStyle(color: const Color.fromARGB(255, 42, 48, 58)),
       ),
     ),

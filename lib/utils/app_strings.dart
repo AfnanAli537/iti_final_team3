@@ -1,7 +1,7 @@
 class AppStrings {
   static const String appName = 'tasty journey';
   static const String signUp = 'Sign Up';
-  static const String openWord = "welcome to your tasty journey ";
+  static const String openWord = "welcome to inspiration App ";
   static const String statementSignIn = 'Login in to your account ';
   static const String email = 'Email';
   static const String password = 'Password';
@@ -9,10 +9,12 @@ class AppStrings {
   static const String signUpButton = 'Sign Up';
   static const String forgetPassword = "forget password";
   static const String emailRequired = 'Email is required';
+  static const String userName = 'Username';
+  static const String usernameRequired = 'Username is required';
   static const String invalidEmail = 'Please enter a valid email';
   static const String passwordRequired = 'Password is required';
   static const String passwordMinLength =
-      'Password must be at least 6 characters';
+      'Password can\'t be less than 6 characters';
   static const String confirmPasswordRequired = 'Please confirm your password';
   static const String passwordsDoNotMatch = 'Passwords do not match';
   static const String formErrors = 'Please correct the form errors';
@@ -31,4 +33,17 @@ class AppStrings {
   static const String faildLogout = "Logout failed. Please try again.";
   static const String faildSign = "Registration failed. Please try again.";
   static const String loginSucess = "login successful...";
+
+  ///
+  ///
+  static const String anonymousUser = "anonymous";
+  static const String resetPassword = "Reset Password";
+  static const String sendResetPassword = "Send email to Reset Password";
+  static const String faildResetPassword =
+      "Failed to reset password. Please try again.";
+  static const String successResetPassword =
+      "Reset password email sent. Please check your inbox.";
+  static const String verifyEmail = "Please verify your email address.";
+  static const String or = "or";
+  static const String loginWithGoogle = "Login with Google";
 }

@@ -4,22 +4,23 @@ import 'package:iti_final_team3/data/models/auth_repo.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/utils/form_validator.dart';
 
-
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepo _authRepo;
 
-  LoginBloc(this._authRepo) : super(LoginInitial()) {
+  LoginBloc(this._authRepo) : super(LoginInitialState()) {
     on<LoginSubmittedEvent>(_onLoginSubmittedEvent);
-    on<LoginReset>(_onLoginReset);
+    on<LoginResetEvent>(_onLoginReset);
     on<LogoutEvent>(_onLogoutEvent);
+    on<ToggleVisibilityEvent>(_onToggleVisibilityEvent);
+    on<ForgetPasswordEvent>(_onForgetPasswordEvent);
   }
 
   Future<void> _onLoginSubmittedEvent(
       LoginSubmittedEvent event, Emitter<LoginState> emit) async {
-    emit(LoginLoading());
+    emit(LoginLoadingState());
 
     try {
       final emailError = FormValidator.validateEmail(event.email);
@@ -30,27 +31,45 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           password: event.password,
         );
         if (user != null) {
-          emit(LoginSuccess(user));
+          emit(LoginSuccessState(user));
         } else {
-          emit(LoginFailure(AppStrings.faildLogin));
+          emit(LoginFailureState(AppStrings.faildLogin));
         }
       }
-    } catch (e) {
-      emit(LoginFailure(e.toString()));
+    } on FirebaseAuthException catch (e) {
+      emit(LoginFailureState(e.toString()));
     }
   }
 
-  void _onLoginReset(LoginReset event, Emitter<LoginState> emit) {
-    emit(LoginInitial());
+  void _onLoginReset(LoginResetEvent event, Emitter<LoginState> emit) {
+    emit(LoginInitialState());
   }
 
   Future<void> _onLogoutEvent(
       LogoutEvent event, Emitter<LoginState> emit) async {
     try {
       await _authRepo.signOut();
-      emit(LoginInitial());
+      emit(LogoutState());
     } catch (e) {
-      emit(LoginFailure(AppStrings.faildLogout));
+      emit(LoginFailureState(AppStrings.faildLogout));
+    }
+  }
+
+  void _onToggleVisibilityEvent(
+      ToggleVisibilityEvent event, Emitter<LoginState> emit) {
+    final currentState = state;
+    final isVisible = !(currentState.isPasswordVisible);
+    emit(LoginInitialState(isPasswordVisible: isVisible));
+  }
+
+  Future<void> _onForgetPasswordEvent(
+      ForgetPasswordEvent event, Emitter<LoginState> emit) async {
+    try {
+      emit(LoginLoadingState());
+      await _authRepo.sendPasswordResetEmail(event.email);
+      emit(LoginResetPasswordState());
+    } catch (e) {
+      emit(LoginFailureState(AppStrings.faildResetPassword));
     }
   }
 }

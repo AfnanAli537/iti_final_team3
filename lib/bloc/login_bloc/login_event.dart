@@ -13,9 +13,25 @@ class LoginSubmittedEvent extends LoginEvent {
     required this.password,
   });
 }
+final class LoginSuccessEvent extends LoginEvent {}
 
-class LoginReset extends LoginEvent {}
+final class LoginFailureEvent extends LoginEvent {
+  final String error;
+  LoginFailureEvent({required this.error});
 
+}
+///
+///
+class LoginResetEvent extends LoginEvent {}
+///
+///
 class LogoutEvent extends LoginEvent {}
 
 class InitialLoginScreenEvent extends LoginEvent {}
+///
+///
+class ToggleVisibilityEvent extends LoginEvent {}
+class ForgetPasswordEvent extends LoginEvent {
+  final String email;
+  ForgetPasswordEvent({required this.email});
+}

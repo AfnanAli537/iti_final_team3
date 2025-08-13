@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/data/models/auth_repo.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
@@ -8,16 +9,17 @@ part 'signup_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthRepo _authRepo;
-  SignUpBloc(this._authRepo) : super(SignUpInitial()) {
+  SignUpBloc(this._authRepo) : super(SignUpInitialState()) {
     on<SignUpSubmittedEvent>(_onSignUpSubmitted);
     on<SignUpReset>(_onSignUpReset);
     on<InitiSingUpScreenEvent>(_onSignUpIniti);
+    on<ToggleVisibilityEvent>(_onToggleVisibilityEvent);
+
   }
 
   Future<void> _onSignUpSubmitted(
       SignUpSubmittedEvent event, Emitter<SignUpState> emit) async {
-    emit(SignUpLoading());
-    await Future.delayed(const Duration(seconds: 2));
+    emit(SignUpLoadingState());
     try {
       final emailError = FormValidator.validateEmail(event.email);
       final passwordError = FormValidator.validatePassword(event.password);
@@ -34,21 +36,27 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         );
 
         if (user != null) {
-          emit(SignUpSuccess(userName: user.displayName ?? " "));
+          emit(SignUpSuccessState(userName: user.displayName ?? AppStrings.anonymousUser));
         } else {
-          emit(SignUpFailure(AppStrings.faildSign));
+          emit(SignUpFailureState(AppStrings.faildSign));
         }
       }
-    } catch (e) {
-      emit(SignUpFailure("Something went wrong. ${e.toString()}"));
+    } on FirebaseAuthException catch (e) {
+      emit(SignUpFailureState(e.toString()));
     }
   }
 
   void _onSignUpReset(SignUpReset event, Emitter<SignUpState> emit) {
-    emit(SignUpInitial());
+    emit(SignUpInitialState());
   }
 
   void _onSignUpIniti(InitiSingUpScreenEvent event, Emitter<SignUpState> emit) {
-    emit(SignUpInitial());
+    emit(SignUpInitialState());
+  }
+  void _onToggleVisibilityEvent(
+      ToggleVisibilityEvent event, Emitter<SignUpState> emit) {
+    final currentState = state;
+    final isVisible = !(currentState.isPasswordVisible);
+    emit(SignUpInitialState(isPasswordVisible: isVisible));
   }
 }

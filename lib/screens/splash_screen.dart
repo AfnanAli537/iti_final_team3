@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/bloc/splash_bloc/splash_bloc.dart';
-import 'login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -16,10 +16,18 @@ class SplashScreen extends StatelessWidget {
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) {
           if (state is SplashFinished) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
-            );
+            final user = FirebaseAuth.instance.currentUser;
+      if (user != null && user.emailVerified) {
+        Navigator.pushReplacementNamed(
+          context,
+          '/main',
+        );
+      } else {
+        Navigator.pushReplacementNamed(
+          context,
+          '/login',
+        );
+      }
           }
         },
         child: Scaffold(

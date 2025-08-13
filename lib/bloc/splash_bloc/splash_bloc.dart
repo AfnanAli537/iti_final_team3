@@ -9,7 +9,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   }
   Future<void> _onTimer(event, emit) async {
     emit(SplashLoading());
-    await Future.delayed(const Duration(seconds: 7));
+    await Future.delayed(const Duration(seconds: 5));
     emit(SplashFinished());
   }
 }

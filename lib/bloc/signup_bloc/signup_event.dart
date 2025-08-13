@@ -19,3 +19,6 @@ class SignUpSubmittedEvent extends SignUpEvent {
 class SignUpReset extends SignUpEvent {}
 
 class InitiSingUpScreenEvent extends SignUpEvent {}
+///
+///
+class ToggleVisibilityEvent extends SignUpEvent {}
