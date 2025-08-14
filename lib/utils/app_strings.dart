@@ -31,4 +31,22 @@ class AppStrings {
   static const String faildLogout = "Logout failed. Please try again.";
   static const String faildSign = "Registration failed. Please try again.";
   static const String loginSucess = "login successful...";
+
+  static const String imageUploadSuccess = "Image uploaded successfully";
+  static const String imageUploadFailure = "Image upload failed";
+  static const String failed = 'Failed to load images';
+  static const String errorMessage = 'Please fill all fields and pick an image';
+  static const String uploadImage = 'Upload Image';
+  static const String title = 'Title';
+  static const String description = 'Description';
+  static const String selectImage = 'Select Image';
+  static const String upload = 'Upload';
+  static const String home = "Home";
+  static const String profile = "Profile";
+  static const String noImageSelected = 'No image selected';
+  static const String uploadSuccessful = 'Upload Successful';
+  static const String homeTitle = "SnapBoard  - Home";
+  static const String welcome = 'Welcome to SnapBoard';
+  static const String detailsNotFound = 'Details not found';
+  static const String noImagesYet = 'No images yet';
 }

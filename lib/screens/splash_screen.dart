@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/bloc/splash_bloc/splash_bloc.dart';
-import 'login_screen.dart';
+import 'package:iti_final_team3/screens/main_nav.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
           if (state is SplashFinished) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
+              MaterialPageRoute(builder: (_) => const MainNavigation()),
             );
           }
         },
@@ -32,7 +32,7 @@ class SplashScreen extends StatelessWidget {
                     width: screenWidth,
                     height: screenHeight,
                     child: Image.asset(
-                      'assets/images/splash.png',
+                      'assets/images/pinterest.png',
                       fit: BoxFit.cover,
                     ),
                   ),
