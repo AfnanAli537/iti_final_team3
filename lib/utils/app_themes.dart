@@ -26,7 +26,7 @@ class AppThemes {
       hintStyle: const TextStyle(color: Colors.grey),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
     ),
-    textTheme: const TextTheme(
+    textTheme: TextTheme(
       bodyMedium: AppTextStyles.subheading,
       titleLarge: AppTextStyles.heading,
       displayLarge: AppTextStyles.title,

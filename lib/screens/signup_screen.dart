@@ -4,7 +4,7 @@ import 'package:iti_final_team3/bloc/signup_bloc/signup_bloc.dart';
 import 'package:iti_final_team3/utils/app_colors.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/utils/form_validator.dart';
-import 'package:iti_final_team3/widget/app_text_form_field.dart';
+import 'package:iti_final_team3/widget/form_feild.dart';
 import 'package:iti_final_team3/widget/show_toast.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -24,15 +24,13 @@ class SignUpPage extends StatelessWidget {
           child: BlocConsumer<SignUpBloc, SignUpState>(
             listener: (context, state) {
               if (state is SignUpSuccessState) {
-                AppToast.showToast(
-                    AppStrings.signUpSuccess, Colors.grey);
+                AppToast.showToast(AppStrings.signUpSuccess, Colors.grey);
                 Navigator.pushReplacementNamed(
                   context,
                   '/login',
                 );
               } else if (state is SignUpFailureState) {
-                AppToast.showToast(
-                    AppStrings.verifyEmail, Colors.red);
+                AppToast.showToast(AppStrings.verifyEmail, Colors.red);
               }
             },
             builder: (context, state) {
@@ -76,25 +74,14 @@ class SignUpPage extends StatelessWidget {
                             AppTextField(
                               controller: passwordController,
                               prefixIcon: const Icon(Icons.lock),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  BlocProvider.of<SignUpBloc>(context)
-                                      .add(ToggleVisibilityEvent());
-                                },
-                                icon: Icon(
-                                  state.isPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                              ),
+                              isPassword: true,
                               textContent: AppStrings.password,
-                              obscureText: !state.isPasswordVisible,
                               validator: FormValidator.validatePassword,
                             ),
                             AppTextField(
                               controller: confirmPasswordController,
                               textContent: AppStrings.confirmPassword,
-                              obscureText: true,
+                              isSecured: true,
                               prefixIcon: const Icon(Icons.lock),
                               validator: (value) =>
                                   FormValidator.validateConfirmPassword(

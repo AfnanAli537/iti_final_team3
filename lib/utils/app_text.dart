@@ -7,6 +7,15 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.text,
   );
+  static TextStyle showTItle = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    color: AppColors.grayText,
+  );
+  static TextStyle showDetails = TextStyle(
+    fontSize: 16,
+    color: AppColors.grayText,
+  );
 
   static const TextStyle title = TextStyle(
     fontSize: 20,
@@ -15,7 +24,7 @@ class AppTextStyles {
   );
 
   static const TextStyle subheading = TextStyle(
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: FontWeight.bold,
     color: AppColors.textLight,
   );

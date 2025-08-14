@@ -3,28 +3,21 @@
 part of 'login_bloc.dart';
 
 class LoginState {
-  final bool isPasswordVisible;
-  const LoginState({this.isPasswordVisible = false});
+
 }
 
-class LoginInitialState extends LoginState {
-  const LoginInitialState({bool isPasswordVisible = false}) : super(isPasswordVisible: isPasswordVisible);
-}
+class LoginInitialState extends LoginState {}
 
-class LoginLoadingState extends LoginState {
-  const LoginLoadingState({bool isPasswordVisible = false}) : super(isPasswordVisible: isPasswordVisible);
-}
+class LoginLoadingState extends LoginState {}
 
 class LoginSuccessState extends LoginState {
   final User user;
-
-  LoginSuccessState(this.user, {bool isPasswordVisible = false}) : super(isPasswordVisible: isPasswordVisible);
-}
+  LoginSuccessState(this.user);}
 
 class LoginFailureState extends LoginState {
   final String error;
 
-  LoginFailureState(this.error,{bool isPasswordVisible = false}) : super(isPasswordVisible: isPasswordVisible);
+  LoginFailureState(this.error);
 }
 final class LogoutState extends LoginState {}
 

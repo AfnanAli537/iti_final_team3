@@ -1,41 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:iti_final_team3/screens/favourite_list_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iti_final_team3/bloc/nav_bloc/nav_bloc.dart';
 import 'package:iti_final_team3/screens/home_screen.dart';
 import 'package:iti_final_team3/screens/profile_screen.dart';
+import 'package:iti_final_team3/screens/upload_screen.dart';
+import 'package:iti_final_team3/utils/app_strings.dart';
 
-class MainNavigation extends StatefulWidget {
+class MainNavigation extends StatelessWidget {
+  final List<Widget> pages = const [
+    HomePage(),
+    UploadPage(),
+    ProfilePage(),
+  ];
+
   const MainNavigation({super.key});
 
   @override
-  State<MainNavigation> createState() => _MainNavigationState();
-}
-
-class _MainNavigationState extends State<MainNavigation> {
-  int _currentIndex = 1;
-
-  final List<Widget> _screens = [
-    const FavouritePage(),
-    const HomePage(),
-    const ProfilePage(),
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-      ),
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: pages[state.currentPage],
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: state.currentPage,
+            onTap: (index) {
+              context.read<NavigationBloc>().add(NavigateTo(index));
+            },
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home), label: AppStrings.home),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.add_photo_alternate_rounded),
+                  label: AppStrings.upload),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: AppStrings.profile),
+            ],
+          ),
+        );
+      },
     );
   }
 }

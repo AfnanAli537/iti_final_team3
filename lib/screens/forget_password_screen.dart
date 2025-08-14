@@ -6,7 +6,7 @@ import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
 import 'package:iti_final_team3/utils/app_colors.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/utils/form_validator.dart';
-import 'package:iti_final_team3/widget/app_text_form_field.dart';
+import 'package:iti_final_team3/widget/form_feild.dart';
 import 'package:iti_final_team3/widget/show_toast.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
@@ -20,8 +20,7 @@ class ForgetPasswordScreen extends StatelessWidget {
         body: BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginResetPasswordState) {
-          AppToast.showToast(
-              AppStrings.successResetPassword, Colors.grey);
+          AppToast.showToast(AppStrings.successResetPassword, Colors.grey);
           Navigator.pop(context);
         }
       },

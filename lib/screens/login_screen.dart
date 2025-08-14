@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
@@ -5,7 +6,7 @@ import 'package:iti_final_team3/utils/app_colors.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/utils/form_validator.dart';
 import 'package:iti_final_team3/utils/my_flutter_app_icons.dart';
-import 'package:iti_final_team3/widget/app_text_form_field.dart';
+import 'package:iti_final_team3/widget/form_feild.dart';
 import 'package:iti_final_team3/widget/show_toast.dart';
 
 class LoginPage extends StatelessWidget {
@@ -22,13 +23,14 @@ class LoginPage extends StatelessWidget {
           child: BlocConsumer<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state is LoginSuccessState) {
-                  AppToast.showToast(
-                      AppStrings.loginSucess, Colors.grey);
+                if (!FirebaseAuth.instance.currentUser!.emailVerified) {
+                  AppToast.showToast(AppStrings.verifyEmail, Colors.red);
+                } else {
+                  AppToast.showToast(AppStrings.loginSucess, Colors.grey);
                   Navigator.pushReplacementNamed(context, '/main');
-                
+                }
               } else if (state is LoginFailureState) {
-                AppToast.showToast(
-                    state.error, Colors.red);
+                AppToast.showToast(state.error, Colors.red);
               }
             },
             builder: (context, state) {
@@ -71,19 +73,8 @@ class LoginPage extends StatelessWidget {
                                 AppTextField(
                                   controller: passwordController,
                                   prefixIcon: const Icon(Icons.lock),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      BlocProvider.of<LoginBloc>(context)
-                                          .add(ToggleVisibilityEvent());
-                                    },
-                                    icon: Icon(
-                                      state.isPasswordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                    ),
-                                  ),
+                                  isPassword: true,
                                   textContent: AppStrings.password,
-                                  obscureText: !state.isPasswordVisible,
                                   validator: FormValidator.validatePassword,
                                 ),
                                 Align(

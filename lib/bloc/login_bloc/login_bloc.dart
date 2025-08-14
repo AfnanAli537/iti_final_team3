@@ -10,17 +10,16 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepo _authRepo;
 
-  LoginBloc(this._authRepo) : super(const LoginInitialState()) {
+  LoginBloc(this._authRepo) : super(LoginInitialState()) {
     on<LoginSubmittedEvent>(_onLoginSubmittedEvent);
     on<LoginResetEvent>(_onLoginReset);
     on<LogoutEvent>(_onLogoutEvent);
-    on<ToggleVisibilityEvent>(_onToggleVisibilityEvent);
     on<ForgetPasswordEvent>(_onForgetPasswordEvent);
   }
 
   Future<void> _onLoginSubmittedEvent(
       LoginSubmittedEvent event, Emitter<LoginState> emit) async {
-    emit(const LoginLoadingState());
+    emit(LoginLoadingState());
 
     try {
       final emailError = FormValidator.validateEmail(event.email);
@@ -30,21 +29,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           email: event.email,
           password: event.password,
         );
-        if (user != null ) {
+        if (user != null) {
           emit(LoginSuccessState(user));
-        } else if(!FirebaseAuth.instance.currentUser!.emailVerified){
-          emit(LoginFailureState(AppStrings.verifyEmail));
-        }else {
+        } 
+        // else if (!FirebaseAuth.instance.currentUser!.emailVerified) {
+        //   emit(LoginFailureState(AppStrings.verifyEmail));
+        // } 
+        else {
           emit(LoginFailureState(AppStrings.faildLogin));
         }
       }
-    } on FirebaseAuthException catch (e) {
-      emit(LoginFailureState(e.toString()));
+    } catch (e) {
+      emit(LoginFailureState(AppStrings.faildLogin));
     }
   }
 
   void _onLoginReset(LoginResetEvent event, Emitter<LoginState> emit) {
-    emit(const LoginInitialState());
+    emit(LoginInitialState());
   }
 
   Future<void> _onLogoutEvent(
@@ -57,17 +58,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  void _onToggleVisibilityEvent(
-      ToggleVisibilityEvent event, Emitter<LoginState> emit) {
-    final currentState = state;
-    final isVisible = !(currentState.isPasswordVisible);
-    emit(LoginInitialState(isPasswordVisible: isVisible));
-  }
-
   Future<void> _onForgetPasswordEvent(
       ForgetPasswordEvent event, Emitter<LoginState> emit) async {
     try {
-      emit(const LoginLoadingState());
+      emit(LoginLoadingState());
       await _authRepo.sendPasswordResetEmail(event.email);
       emit(LoginResetPasswordState());
     } catch (e) {

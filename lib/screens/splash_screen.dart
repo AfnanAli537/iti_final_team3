@@ -17,17 +17,17 @@ class SplashScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is SplashFinished) {
             final user = FirebaseAuth.instance.currentUser;
-      if (user != null && user.emailVerified) {
-        Navigator.pushReplacementNamed(
-          context,
-          '/main',
-        );
-      } else {
-        Navigator.pushReplacementNamed(
-          context,
-          '/login',
-        );
-      }
+            if (user != null && user.emailVerified) {
+              Navigator.pushReplacementNamed(
+                context,
+                '/main',
+              );
+            } else {
+              Navigator.pushReplacementNamed(
+                context,
+                '/login',
+              );
+            }
           }
         },
         child: Scaffold(
@@ -40,7 +40,7 @@ class SplashScreen extends StatelessWidget {
                     width: screenWidth,
                     height: screenHeight,
                     child: Image.asset(
-                      'assets/images/splash.png',
+                      'assets/images/pinterest.png',
                       fit: BoxFit.cover,
                     ),
                   ),

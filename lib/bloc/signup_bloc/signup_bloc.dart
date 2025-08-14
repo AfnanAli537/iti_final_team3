@@ -9,17 +9,15 @@ part 'signup_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthRepo _authRepo;
-  SignUpBloc(this._authRepo) : super(const SignUpInitialState()) {
+  SignUpBloc(this._authRepo) : super(SignUpInitialState()) {
     on<SignUpSubmittedEvent>(_onSignUpSubmitted);
     on<SignUpReset>(_onSignUpReset);
     on<InitiSingUpScreenEvent>(_onSignUpIniti);
-    on<ToggleVisibilityEvent>(_onToggleVisibilityEvent);
-
   }
 
   Future<void> _onSignUpSubmitted(
       SignUpSubmittedEvent event, Emitter<SignUpState> emit) async {
-    emit(const SignUpLoadingState());
+    emit(SignUpLoadingState());
     try {
       final emailError = FormValidator.validateEmail(event.email);
       final passwordError = FormValidator.validatePassword(event.password);
@@ -47,16 +45,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   void _onSignUpReset(SignUpReset event, Emitter<SignUpState> emit) {
-    emit(const SignUpInitialState());
+    emit(SignUpInitialState());
   }
 
   void _onSignUpIniti(InitiSingUpScreenEvent event, Emitter<SignUpState> emit) {
-    emit(const SignUpInitialState());
+    emit(SignUpInitialState());
   }
-  void _onToggleVisibilityEvent(
-      ToggleVisibilityEvent event, Emitter<SignUpState> emit) {
-    final currentState = state;
-    final isVisible = !(currentState.isPasswordVisible);
-    emit(SignUpInitialState(isPasswordVisible: isVisible));
-  }
+  
 }

@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FirestoreRepo {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Create user document when verified (only if doesn't exist)
   Future<void> createUserDocumentIfNotExists(User user) async {
     final docRef = _firestore.collection('users').doc(user.uid);
     final docSnapshot = await docRef.get();

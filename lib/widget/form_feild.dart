@@ -23,28 +23,35 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PasswordVisibilityBloc, PasswordVisibilityState>(
       builder: (context, state) {
-        return TextFormField(
-          controller: controller,
-          obscureText: isPassword ? state.isoObscure : false,
-          decoration: InputDecoration(
-            hintText: textContent,
-            prefixIcon: prefixIcon,
-            suffixIcon: isPassword
-                ? IconButton(
-                    icon: Icon(
-                      state.isoObscure
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                    ),
-                    onPressed: () {
-                      context
-                          .read<PasswordVisibilityBloc>()
-                          .add(TogglePasswordVisibilityEvent());
-                    },
-                  )
-                : null,
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+            onTapOutside: (_) {
+              FocusScope.of(context).unfocus();
+            },
+            controller: controller,
+            obscureText:
+                isSecured ? true : (isPassword ? state.isoObscure : false),
+            decoration: InputDecoration(
+              hintText: textContent,
+              prefixIcon: prefixIcon,
+              suffixIcon: isPassword
+                  ? IconButton(
+                      icon: Icon(
+                        state.isoObscure
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        context
+                            .read<PasswordVisibilityBloc>()
+                            .add(TogglePasswordVisibilityEvent());
+                      },
+                    )
+                  : null,
+            ),
+            validator: validator,
           ),
-          validator: validator,
         );
       },
     );
