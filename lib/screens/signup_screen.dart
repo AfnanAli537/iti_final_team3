@@ -25,14 +25,14 @@ class SignUpPage extends StatelessWidget {
             listener: (context, state) {
               if (state is SignUpSuccessState) {
                 AppToast.showToast(
-                    error: AppStrings.signUpSuccess, color: AppColors.border);
+                    AppStrings.signUpSuccess, Colors.grey);
                 Navigator.pushReplacementNamed(
                   context,
                   '/login',
                 );
               } else if (state is SignUpFailureState) {
                 AppToast.showToast(
-                    error: AppStrings.verifyEmail, color: AppColors.mainColor);
+                    AppStrings.verifyEmail, Colors.red);
               }
             },
             builder: (context, state) {

@@ -10,7 +10,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepo _authRepo;
 
-  LoginBloc(this._authRepo) : super(LoginInitialState()) {
+  LoginBloc(this._authRepo) : super(const LoginInitialState()) {
     on<LoginSubmittedEvent>(_onLoginSubmittedEvent);
     on<LoginResetEvent>(_onLoginReset);
     on<LogoutEvent>(_onLogoutEvent);
@@ -20,7 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<void> _onLoginSubmittedEvent(
       LoginSubmittedEvent event, Emitter<LoginState> emit) async {
-    emit(LoginLoadingState());
+    emit(const LoginLoadingState());
 
     try {
       final emailError = FormValidator.validateEmail(event.email);
@@ -30,9 +30,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           email: event.email,
           password: event.password,
         );
-        if (user != null) {
+        if (user != null ) {
           emit(LoginSuccessState(user));
-        } else {
+        } else if(!FirebaseAuth.instance.currentUser!.emailVerified){
+          emit(LoginFailureState(AppStrings.verifyEmail));
+        }else {
           emit(LoginFailureState(AppStrings.faildLogin));
         }
       }
@@ -42,7 +44,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _onLoginReset(LoginResetEvent event, Emitter<LoginState> emit) {
-    emit(LoginInitialState());
+    emit(const LoginInitialState());
   }
 
   Future<void> _onLogoutEvent(
@@ -65,7 +67,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Future<void> _onForgetPasswordEvent(
       ForgetPasswordEvent event, Emitter<LoginState> emit) async {
     try {
-      emit(LoginLoadingState());
+      emit(const LoginLoadingState());
       await _authRepo.sendPasswordResetEmail(event.email);
       emit(LoginResetPasswordState());
     } catch (e) {

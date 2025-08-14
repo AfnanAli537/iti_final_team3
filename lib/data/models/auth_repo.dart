@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:iti_final_team3/data/repos/user_repository.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthRepointerface {}
 
 class AuthRepo extends AuthRepointerface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirestoreRepo _firestoreRepo = FirestoreRepo();
 
   Future<User?> signUpWithEmailAndPassword({
     required String email,
@@ -20,6 +22,9 @@ class AuthRepo extends AuthRepointerface {
       await credential.user?.updateDisplayName(name);
       _auth.currentUser?.sendEmailVerification();
       await credential.user?.reload();
+      if (credential.user != null && credential.user!.emailVerified) {
+      await _firestoreRepo.createUserDocumentIfNotExists(credential.user!);
+    }
       // return credential.user;
       return _auth.currentUser;
     } on FirebaseAuthException catch (e) {
@@ -37,12 +42,16 @@ class AuthRepo extends AuthRepointerface {
         email: email,
         password: password,
       );
+      if (credential.user != null && credential.user!.emailVerified) {
+      await _firestoreRepo.createUserDocumentIfNotExists(credential.user!);
+    }
       return credential.user;
     } on FirebaseAuthException catch (e) {
       debugPrint("Failed to sign in: ${e.message}");
       return null;
     }
   }
+
 
   Future<void> signOut() async {
     try {

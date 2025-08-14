@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:iti_final_team3/utils/app_text.dart';
 
 import 'app_colors.dart';

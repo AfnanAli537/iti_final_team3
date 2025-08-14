@@ -7,21 +7,21 @@ abstract class SignUpState {
 }
 
 class SignUpInitialState extends SignUpState {
-  const SignUpInitialState({bool isPasswordVisible = false}) : super(isPasswordVisible: isPasswordVisible);
+  const SignUpInitialState({super.isPasswordVisible});
 }
 
 class SignUpLoadingState extends SignUpState {
-  const SignUpLoadingState({bool isPasswordVisible = false}) : super(isPasswordVisible: isPasswordVisible);
+  const SignUpLoadingState({super.isPasswordVisible});
 }
 
 class SignUpSuccessState extends SignUpState {
   final String userName;
 
-  SignUpSuccessState({required this.userName, bool isPasswordVisible = false}) : super(isPasswordVisible: isPasswordVisible);
+  SignUpSuccessState({required this.userName, super.isPasswordVisible});
 }
 
 class SignUpFailureState extends SignUpState {
   final String error;
 
-  SignUpFailureState(this.error,{bool isPasswordVisible = false}) : super(isPasswordVisible: isPasswordVisible);
+  SignUpFailureState(this.error,{super.isPasswordVisible});
 }

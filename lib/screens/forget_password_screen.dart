@@ -21,7 +21,7 @@ class ForgetPasswordScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginResetPasswordState) {
           AppToast.showToast(
-              error: AppStrings.successResetPassword, color: AppColors.border);
+              AppStrings.successResetPassword, Colors.grey);
           Navigator.pop(context);
         }
       },

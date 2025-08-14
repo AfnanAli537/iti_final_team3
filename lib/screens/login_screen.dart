@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
 import 'package:iti_final_team3/utils/app_colors.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
@@ -23,18 +22,13 @@ class LoginPage extends StatelessWidget {
           child: BlocConsumer<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state is LoginSuccessState) {
-                if (FirebaseAuth.instance.currentUser!.emailVerified) {
                   AppToast.showToast(
-                      error: AppStrings.loginSucess, color: AppColors.border);
+                      AppStrings.loginSucess, Colors.grey);
                   Navigator.pushReplacementNamed(context, '/main');
-                } else {
-                  AppToast.showToast(
-                      error: AppStrings.verifyEmail,
-                      color: AppColors.mainColor);
-                }
+                
               } else if (state is LoginFailureState) {
                 AppToast.showToast(
-                    error: AppStrings.faildLogin, color: AppColors.mainColor);
+                    state.error, Colors.red);
               }
             },
             builder: (context, state) {
