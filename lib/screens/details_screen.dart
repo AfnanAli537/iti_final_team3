@@ -4,10 +4,6 @@ import 'package:iti_final_team3/data/repo/image_repo.dart';
 import 'package:iti_final_team3/screens/heart_icon.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/widget/show_toast.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:iti_final_team3/bloc/favourite_bloc/favourite_bloc.dart';
-import 'package:iti_final_team3/bloc/favourite_bloc/favourite_event.dart';
-import 'package:iti_final_team3/bloc/favourite_bloc/favourite_state.dart';
 
 class DetailsPage extends StatelessWidget {
   final ImageModel image;
@@ -47,28 +43,7 @@ class DetailsPage extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       //الجزء بتاع eman
-                      LikeButton(
-                        initialIsLiked:
-                            context.select<FavouriteBloc, bool>((bloc) {
-                          if (bloc.state is FavouriteLoaded) {
-                            return (bloc.state as FavouriteLoaded)
-                                .favourites
-                                .any((fav) => fav.url == image.url);
-                          }
-                          return false;
-                        }),
-                        onChanged: (isLiked) {
-                          if (isLiked) {
-                            context
-                                .read<FavouriteBloc>()
-                                .add(AddFavourite(image));
-                          } else {
-                            context
-                                .read<FavouriteBloc>()
-                                .add(RemoveFavourite(image.url));
-                          }
-                        },
-                      ),
+                      LikeButton(image: image),
                     ],
                   ),
                   Text(

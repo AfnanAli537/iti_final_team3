@@ -115,7 +115,7 @@ class ProfilePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     child: Row(
                       children: [
-                        Icon(Icons.logout, color: Colors.red, size: 28),
+                        const Icon(Icons.logout, color: Colors.red, size: 28),
                         const SizedBox(width: 10),
                         Text(
                           'Logout',

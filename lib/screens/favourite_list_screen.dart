@@ -58,16 +58,7 @@ class FavouritePage extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: LikeButton(
-                            initialIsLiked: true,
-                            onChanged: (isLiked) {
-                              if (!isLiked) {
-                                context.read<FavouriteBloc>().add(
-                                      RemoveFavourite(img.url),
-                                    );
-                              }
-                            },
-                          ),
+                          child: LikeButton(image: img),
                         ),
                       ],
                     ),
