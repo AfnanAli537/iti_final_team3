@@ -63,6 +63,7 @@ class LoginPage extends StatelessWidget {
                           Form(
                             key: formKey,
                             child: Column(
+                              spacing: 10,
                               children: [
                                 AppTextField(
                                   controller: emailController,
@@ -132,46 +133,47 @@ class LoginPage extends StatelessWidget {
                             AppStrings.or,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
-                          SizedBox(
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // BlocProvider.of<SignupBloc>(context).add(
-                                //   SignupGoogleEvent(),
-                                // );
-                              },
-                              style: Theme.of(context)
-                                  .elevatedButtonTheme
-                                  .style!
-                                  .copyWith(
-                                    backgroundColor: WidgetStateProperty.all(
-                                      Colors.grey[200],
-                                    ),
-                                  ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                spacing: 10,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    AppStrings.loginWithGoogle,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.bodyMedium,
-                                  ),
-                                  Icon(
-                                    MyFlutterAppIcons.google,
-                                    color: AppColors.mainColor,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          // SizedBox(
+                          //   height: 50,
+                          //   child: ElevatedButton(
+                          //     onPressed: () {
+                          //       // BlocProvider.of<SignupBloc>(context).add(
+                          //       //   SignupGoogleEvent(),
+                          //       // );
+                          //     },
+                          //     style: Theme.of(context)
+                          //         .elevatedButtonTheme
+                          //         .style!
+                          //         .copyWith(
+                          //           backgroundColor: WidgetStateProperty.all(
+                          //             Colors.grey[200],
+                          //           ),
+                          //         ),
+                          //     child: Row(
+                          //       mainAxisSize: MainAxisSize.min,
+                          //       spacing: 10,
+                          //       mainAxisAlignment: MainAxisAlignment.center,
+                          //       children: [
+                          //         Text(
+                          //           AppStrings.loginWithGoogle,
+                          //           style: Theme.of(
+                          //             context,
+                          //           ).textTheme.bodyMedium,
+                          //         ),
+                          //         Icon(
+                          //           MyFlutterAppIcons.google,
+                          //           color: AppColors.mainColor,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 10,
                       children: [
                         Text(
                           AppStrings.newAccount,

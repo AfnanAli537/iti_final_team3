@@ -18,7 +18,8 @@ class AppStrings {
   static const String confirmPasswordRequired = 'Please confirm your password';
   static const String passwordsDoNotMatch = 'Passwords do not match';
   static const String formErrors = 'Please correct the form errors';
-  static const String signUpSuccess = 'Sign Up Successful';
+  static const String signUpSuccess =
+      'Sign Up Successful, please verify your email';
   static const String signUpFailure = 'Sign Up Failed';
   static const String loading = 'Loading...';
   static const String initial = 'Initial State';
@@ -38,6 +39,7 @@ class AppStrings {
   ///
   static const String anonymousUser = "anonymous";
   static const String resetPassword = "Reset Password";
+  static const String emailNotRegistered = "The email is not used";
   static const String sendResetPassword = "Send email to Reset Password";
   static const String faildResetPassword =
       "Failed to reset password. Please try again.";
@@ -57,6 +59,7 @@ class AppStrings {
   static const String upload = 'Upload';
   static const String home = "Home";
   static const String profile = "Profile";
+  static const String favourite = "Favourite";
   static const String noImageSelected = 'No image selected';
   static const String uploadSuccessful = 'Upload Successful';
   static const String homeTitle = "SnapBoard  - Home";

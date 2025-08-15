@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iti_final_team3/bloc/like_bloc/like_bloc.dart';
+import 'package:iti_final_team3/bloc/like_bloc/like_event.dart';
+import 'package:iti_final_team3/bloc/like_bloc/like_state.dart';
 
-class LikeButton extends StatefulWidget {
+class LikeButton extends StatelessWidget {
   final bool initialIsLiked;
   final Function(bool) onChanged;
 
@@ -11,40 +15,32 @@ class LikeButton extends StatefulWidget {
   });
 
   @override
-  State<LikeButton> createState() => _LikeButtonState();
-}
-
-class _LikeButtonState extends State<LikeButton> {
-  late bool isLiked;
-
-  @override
-  void initState() {
-    super.initState();
-    isLiked = widget.initialIsLiked;
-  }
-
-  void toggleLike() {
-    setState(() {
-      isLiked = !isLiked;
-    });
-    widget.onChanged(isLiked);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: toggleLike,
-      child: Icon(
-        isLiked ? Icons.favorite : Icons.favorite_border_rounded,
-        color: isLiked ? Colors.red : const Color.fromARGB(255, 141, 137, 137),
-        size: 28,
-        shadows: const [
-          Shadow(
-            offset: Offset(1, 1),
-            blurRadius: 3,
-            color: Colors.black54,
-          )
-        ],
+    return BlocProvider(
+      create: (_) => LikeBloc(initialIsLiked: initialIsLiked),
+      child: BlocBuilder<LikeBloc, LikeState>(
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () {
+              context.read<LikeBloc>().add(ToggleLikeEvent());
+              onChanged(!state.isLiked);
+            },
+            child: Icon(
+              state.isLiked ? Icons.favorite : Icons.favorite_border_rounded,
+              color: state.isLiked
+                  ? Colors.red
+                  : const Color.fromARGB(255, 141, 137, 137),
+              size: 28,
+              shadows: const [
+                Shadow(
+                  offset: Offset(1, 1),
+                  blurRadius: 3,
+                  color: Colors.black54,
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
   }

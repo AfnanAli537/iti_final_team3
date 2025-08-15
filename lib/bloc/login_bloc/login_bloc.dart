@@ -31,10 +31,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
         if (user != null) {
           emit(LoginSuccessState(user));
-        } 
+        }
         // else if (!FirebaseAuth.instance.currentUser!.emailVerified) {
         //   emit(LoginFailureState(AppStrings.verifyEmail));
-        // } 
+        // }
         else {
           emit(LoginFailureState(AppStrings.faildLogin));
         }

@@ -52,6 +52,6 @@ class AppTextStyles {
   );
   static const TextStyle darkSubheading = TextStyle(
     fontSize: 14,
-    color: AppColors.darkTextLight,
+    color: AppColors.darkText,
   );
 }

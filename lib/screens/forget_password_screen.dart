@@ -99,6 +99,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Row(
+                    spacing: 10,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
