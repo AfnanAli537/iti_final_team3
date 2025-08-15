@@ -19,6 +19,7 @@ dependencies:
   fluttertoast: ^8.2.12
   firebase_auth: ^6.0.0
   equatable: ^2.0.7
+  crypto: ^3.0.6
 
 dev_dependencies:
   flutter_test:
@@ -30,5 +31,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/fonts/
+   # - assets/fonts/
 

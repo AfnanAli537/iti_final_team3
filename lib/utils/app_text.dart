@@ -8,6 +8,12 @@ class AppTextStyles {
     color: AppColors.text,
   );
 
+  static const TextStyle title = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: AppColors.text,
+  );
+
   static const TextStyle subheading = TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.bold,
@@ -28,6 +34,11 @@ class AppTextStyles {
   static const TextStyle darkHeading = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
+    color: AppColors.darkText,
+  );
+  static const TextStyle darkTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
     color: AppColors.darkText,
   );
   static const TextStyle darkSubheading = TextStyle(
