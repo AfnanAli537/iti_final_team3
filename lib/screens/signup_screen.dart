@@ -94,9 +94,21 @@ class SignUpPage extends StatelessWidget {
                                 value,
                               ),
                             ),
-                            SizedBox(
+                            (state is SignUpLoadingState)
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : SizedBox(
                               width: double.infinity,
-                              child: ElevatedButton(
+                              child:(state is SignUpLoadingState)
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    :  ElevatedButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
                                     BlocProvider.of<SignUpBloc>(context).add(
@@ -112,13 +124,7 @@ class SignUpPage extends StatelessWidget {
                                     );
                                   }
                                 },
-                                child: (state is SignUpLoadingState)
-                                    ? const SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: CircularProgressIndicator(),
-                                      )
-                                    : Text(
+                                child: Text(
                                         AppStrings.signUp,
                                         style: Theme.of(
                                           context,

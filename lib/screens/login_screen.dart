@@ -92,34 +92,39 @@ class LoginPage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      if (formKey.currentState!.validate()) {
-                                        BlocProvider.of<LoginBloc>(context).add(
-                                          LoginSubmittedEvent(
-                                            email: emailController.text.trim(),
-                                            password:
-                                                passwordController.text.trim(),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: (state is LoginLoadingState)
-                                        ? const SizedBox(
-                                            height: 20,
-                                            width: 20,
-                                            child: CircularProgressIndicator(),
-                                          )
-                                        : Text(
+                                (state is LoginLoadingState)
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : SizedBox(
+                                        width: double.infinity,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            if (formKey.currentState!
+                                                .validate()) {
+                                              BlocProvider.of<LoginBloc>(
+                                                      context)
+                                                  .add(
+                                                LoginSubmittedEvent(
+                                                  email: emailController.text
+                                                      .trim(),
+                                                  password: passwordController
+                                                      .text
+                                                      .trim(),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Text(
                                             AppStrings.login,
                                             style: Theme.of(
                                               context,
                                             ).textTheme.bodyMedium,
                                           ),
-                                  ),
-                                ),
+                                        ),
+                                      ),
                               ],
                             ),
                           ),
