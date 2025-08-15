@@ -40,6 +40,7 @@ class HomePage extends StatelessWidget {
                         await imageService.fetchImageModelByUrl(imageUrl);
                     if (imageModel != null) {
                       Navigator.push(
+                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                           builder: (_) =>

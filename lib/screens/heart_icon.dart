@@ -38,8 +38,8 @@ class _LikeButtonState extends State<LikeButton> {
         isLiked ? Icons.favorite : Icons.favorite_border_rounded,
         color: isLiked ? Colors.red : const Color.fromARGB(255, 141, 137, 137),
         size: 28,
-        shadows: [
-          const Shadow(
+        shadows: const [
+          Shadow(
             offset: Offset(1, 1),
             blurRadius: 3,
             color: Colors.black54,

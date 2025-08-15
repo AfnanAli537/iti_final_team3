@@ -17,6 +17,7 @@ class UploadPage extends StatelessWidget {
     Future<void> pickImage() async {
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
+        // ignore: use_build_context_synchronously
         context.read<UploadBloc>().add(ImagePicked(File(pickedFile.path)));
       }
     }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/bloc/signup_bloc/signup_bloc.dart';
-import 'package:iti_final_team3/utils/app_colors.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/utils/form_validator.dart';
 import 'package:iti_final_team3/widget/form_feild.dart';
@@ -40,8 +39,14 @@ class SignUpPage extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Icon(Icons.party_mode_rounded,
-                            size: 100, color: AppColors.mainColor),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            height: 100,
+                            width: 100,
+                          ),
+                        ),
                         Text(
                           AppStrings.signUp,
                           style: Theme.of(context).textTheme.titleLarge,

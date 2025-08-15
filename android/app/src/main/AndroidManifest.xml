@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="iti_final_team3"
+        android:label="Inspiration"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

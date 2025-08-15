@@ -36,12 +36,12 @@ class SplashScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: screenWidth,
-                    height: screenHeight,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
                     child: Image.asset(
-                      'assets/images/pinterest.png',
-                      fit: BoxFit.cover,
+                      'assets/images/logo.png',
+                      height: screenHeight * 0.5,
+                      width: screenWidth * 0.5,
                     ),
                   ),
                 ],
