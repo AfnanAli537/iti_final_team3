@@ -1,19 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iti_final_team3/bloc/favourite_bloc/favourite_event.dart';
 import 'package:iti_final_team3/bloc/form_bloc/form_bloc.dart';
 import 'package:iti_final_team3/bloc/favourite_bloc/favourite_bloc.dart';
 import 'package:iti_final_team3/bloc/home_bloc/image_bloc.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
 import 'package:iti_final_team3/bloc/nav_bloc/nav_bloc.dart';
+import 'package:iti_final_team3/bloc/profile_bloc/profile_bloc.dart';
 import 'package:iti_final_team3/bloc/signup_bloc/signup_bloc.dart';
 import 'package:iti_final_team3/bloc/splash_bloc/splash_bloc.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_bloc.dart';
+import 'package:iti_final_team3/bloc/theme_bloc/theme_event.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_state.dart';
+import 'package:iti_final_team3/bloc/like_bloc/like_bloc.dart';
+import 'package:iti_final_team3/bloc/like_bloc/like_event.dart';
+
 import 'package:iti_final_team3/bloc/upload_data/upload_bloc.dart';
 import 'package:iti_final_team3/data/models/auth_repo.dart';
 import 'package:iti_final_team3/data/repo/favourite_repo.dart';
 import 'package:iti_final_team3/data/repo/image_repo.dart';
+import 'package:iti_final_team3/data/repo/user_repository.dart';
 import 'package:iti_final_team3/screens/favourite_list_screen.dart';
 import 'package:iti_final_team3/screens/forget_password_screen.dart';
 import 'package:iti_final_team3/screens/home_screen.dart';
@@ -38,7 +45,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (_) => SplashBloc()),
         BlocProvider(create: (_) => SignUpBloc(authRepo)),
         BlocProvider(create: (_) => LoginBloc(authRepo)),
-        BlocProvider(create: (_) => ThemeBloc()),
+        BlocProvider(create: (context) => ThemeBloc()..add(LoadThemeEvent())),
         BlocProvider(
           create: (_) => UploadBloc(repository: ImageRepository()),
         ),
@@ -49,11 +56,21 @@ class MainApp extends StatelessWidget {
           create: (_) => PasswordVisibilityBloc(),
         ),
         BlocProvider(
-          create: (_) => FavouriteBloc(
-            FavoriteRepository(),
+          create: (_) =>
+              FavouriteBloc(FavoriteRepository(), FirebaseAuth.instance)
+                ..add(LoadFavourites()),
+        ),
+        BlocProvider(
+          create: (context) => LikeBloc(
+            FavoriteRepository(), 
             FirebaseAuth.instance,
-          ),
-        )
+          )..add(const LoadLikes()),
+        ),
+        BlocProvider(
+          create: (_) => ProfileBloc(UserRepository())
+            ..add(FetchProfileImageEvent()),
+        ),
+        
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {

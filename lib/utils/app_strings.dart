@@ -66,4 +66,8 @@ class AppStrings {
   static const String welcome = 'Welcome to SnapBoard';
   static const String detailsNotFound = 'Details not found';
   static const String noImagesYet = 'No images yet';
+
+  static const String mode = 'Mode';
+  static const String darkmode = 'Dark';
+  static const String lightmode = 'Light';
 }

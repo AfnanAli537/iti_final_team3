@@ -1,7 +1,5 @@
-// bloc/favourite_bloc/favourite_event.dart
 import 'package:equatable/equatable.dart';
 import 'package:iti_final_team3/data/repo/image_model.dart';
-
 abstract class FavouriteEvent extends Equatable {
   @override
   List<Object?> get props => [];

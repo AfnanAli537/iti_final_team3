@@ -23,7 +23,7 @@ class SignUpPage extends StatelessWidget {
           child: BlocConsumer<SignUpBloc, SignUpState>(
             listener: (context, state) {
               if (state is SignUpSuccessState) {
-                AppToast.showToast(AppStrings.signUpSuccess, Colors.grey);
+                AppToast.showToast(AppStrings.signUpSuccess, Colors.green);
                 Navigator.pushReplacementNamed(
                   context,
                   '/login',

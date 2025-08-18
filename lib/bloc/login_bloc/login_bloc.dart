@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:iti_final_team3/data/models/auth_repo.dart';
@@ -62,10 +64,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       ForgetPasswordEvent event, Emitter<LoginState> emit) async {
     try {
       emit(LoginLoadingState());
-      await _authRepo.sendPasswordResetEmail(event.email);
-      emit(LoginResetPasswordState());
-    } catch (e) {
+      QuerySnapshot query = await FirebaseFirestore.instance
+          .collection('users')
+          .where("email", isEqualTo: event.email)
+          .limit(1)
+          .get();
+      if (query.docs.isNotEmpty) {
+        await _authRepo.sendPasswordResetEmail(event.email);
+        emit(LoginResetPasswordState());
+      }else{
+        emit(LoginFailureState(AppStrings.emailNotRegistered));
+      }
+    } on FirebaseAuthException catch (e) {
       emit(LoginFailureState(AppStrings.faildResetPassword));
+      debugPrint(e.toString());
     }
   }
 }

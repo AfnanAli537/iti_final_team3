@@ -1,4 +1,3 @@
-// bloc/favourite_bloc/favourite_state.dart
 import 'package:equatable/equatable.dart';
 import 'package:iti_final_team3/data/repo/image_model.dart';
 

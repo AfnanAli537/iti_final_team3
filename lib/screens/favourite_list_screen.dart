@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/bloc/favourite_bloc/favourite_bloc.dart';
-import 'package:iti_final_team3/bloc/favourite_bloc/favourite_event.dart';
 import 'package:iti_final_team3/bloc/favourite_bloc/favourite_state.dart';
 import 'package:iti_final_team3/screens/details_screen.dart';
-import 'package:iti_final_team3/screens/heart_icon.dart'; // LikeButton
+import 'package:iti_final_team3/screens/heart_icon.dart';
 
 class FavouritePage extends StatelessWidget {
   const FavouritePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    context.read<FavouriteBloc>().add(LoadFavourites());
-
     return Scaffold(
       appBar: AppBar(title: const Text("My Favourites")),
       body: BlocBuilder<FavouriteBloc, FavouriteState>(

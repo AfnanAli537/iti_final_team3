@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
+import 'package:iti_final_team3/bloc/profile_bloc/profile_bloc.dart';
 import 'package:iti_final_team3/utils/app_colors.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/utils/form_validator.dart';
@@ -16,6 +17,7 @@ class LoginPage extends StatelessWidget {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -25,7 +27,9 @@ class LoginPage extends StatelessWidget {
                 if (!FirebaseAuth.instance.currentUser!.emailVerified) {
                   AppToast.showToast(AppStrings.verifyEmail, Colors.red);
                 } else {
-                  AppToast.showToast(AppStrings.loginSucess, Colors.grey);
+                  AppToast.showToast(AppStrings.loginSucess, Colors.green);
+                  BlocProvider.of<ProfileBloc>(context)
+                      .add(FetchProfileImageEvent());
                   Navigator.pushReplacementNamed(context, '/main');
                 }
               } else if (state is LoginFailureState) {
@@ -191,8 +195,8 @@ class LoginPage extends StatelessWidget {
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
                         const SizedBox(
-                            width: 10,
-                          ),
+                          width: 10,
+                        ),
                         TextButton(
                           onPressed: () {
                             Navigator.pushReplacementNamed(context, '/signup');

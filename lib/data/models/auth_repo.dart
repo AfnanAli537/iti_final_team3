@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import 'package:iti_final_team3/data/repo/user_repository.dart';
 
-abstract class AuthRepointerface {}
-
-class AuthRepo extends AuthRepointerface {
+class AuthRepo {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final UserRepository _userRepository = UserRepository();
 
   Future<User?> signUpWithEmailAndPassword({
     required String email,
@@ -17,16 +17,24 @@ class AuthRepo extends AuthRepointerface {
         email: email,
         password: password,
       );
-      await credential.user?.updateDisplayName(name);
-      _auth.currentUser?.sendEmailVerification();
-      await credential.user?.reload();
+      final user = credential.user;
 
-      // return credential.user;
+      await user?.updateDisplayName(name);
+
+      await user?.sendEmailVerification();
+      await user?.reload();
+
+      // await _userRepository.createUserDocument(
+      //   email: email,
+      //   userId: user!.uid,
+      //   profileImageUrl: 'https://cdn-icons-png.flaticon.com/512/847/847969.png', // default avatar
+      // );
+
       return _auth.currentUser;
     } on FirebaseAuthException catch (e) {
       debugPrint("Failed to sign up: ${e.message}");
+      return null;
     }
-    return null;
   }
 
   Future<User?> signInWithEmailAndPassword({
@@ -38,10 +46,27 @@ class AuthRepo extends AuthRepointerface {
         email: email,
         password: password,
       );
-      if (!credential.user!.emailVerified) {
-        _auth.currentUser?.sendEmailVerification();
+
+      final user = credential.user;
+
+      if (!user!.emailVerified) {
+        await user.sendEmailVerification();
+      } else {
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
+        if (!userDoc.exists) {
+          await _userRepository.createUserDocument(
+            email: email,
+            userId: user.uid,
+            profileImageUrl:
+                'https://cdn-icons-png.flaticon.com/512/847/847969.png',
+          );
+        }
       }
-      return credential.user;
+      return user;
     } on FirebaseAuthException catch (e) {
       debugPrint("Failed to sign in: ${e.message}");
       return null;
@@ -70,10 +95,11 @@ class AuthRepo extends AuthRepointerface {
   //   );
   //   return await FirebaseAuth.instance.signInWithCredential(credential);
   // }
-
   Future<void> sendPasswordResetEmail(String email) async {
     try {
-      await _auth.sendPasswordResetEmail(email: email);
+      if (await _userRepository.isEmailRegistered(email)) {
+        await _auth.sendPasswordResetEmail(email: email);
+      }
     } on FirebaseAuthException catch (e) {
       debugPrint("Failed to send password reset email: ${e.message}");
     }
