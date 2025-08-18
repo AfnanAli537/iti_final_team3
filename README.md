@@ -175,9 +175,6 @@ A Pinterest-inspired app built with Flutter & Firebase during ITI 1-Month Intens
 [▶ Watch Demo Video](https://drive.google.com/file/d/1Na3smj81MXLbWqtFh2UJq5_1Ptutg_We/preview)
 
 
-
-
-
 ## Project Structure
 
 ```
