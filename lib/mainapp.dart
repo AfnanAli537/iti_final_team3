@@ -6,6 +6,7 @@ import 'package:iti_final_team3/bloc/favourite_bloc/favourite_bloc.dart';
 import 'package:iti_final_team3/bloc/home_bloc/image_bloc.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
 import 'package:iti_final_team3/bloc/nav_bloc/nav_bloc.dart';
+import 'package:iti_final_team3/bloc/search_bloc/search_bloc.dart';
 import 'package:iti_final_team3/bloc/signup_bloc/signup_bloc.dart';
 import 'package:iti_final_team3/bloc/splash_bloc/splash_bloc.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_bloc.dart';
@@ -53,7 +54,12 @@ class MainApp extends StatelessWidget {
             FavoriteRepository(),
             FirebaseAuth.instance,
           ),
-        )
+        ),
+        BlocProvider(
+          create: (_) => SearchBloc(
+            ImageRepository(),
+          ),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {

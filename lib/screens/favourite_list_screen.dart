@@ -4,7 +4,8 @@ import 'package:iti_final_team3/bloc/favourite_bloc/favourite_bloc.dart';
 import 'package:iti_final_team3/bloc/favourite_bloc/favourite_event.dart';
 import 'package:iti_final_team3/bloc/favourite_bloc/favourite_state.dart';
 import 'package:iti_final_team3/screens/details_screen.dart';
-import 'package:iti_final_team3/screens/heart_icon.dart'; // LikeButton
+import 'package:iti_final_team3/screens/heart_icon.dart';
+import 'package:lottie/lottie.dart'; // LikeButton
 
 class FavouritePage extends StatelessWidget {
   const FavouritePage({super.key});
@@ -21,7 +22,11 @@ class FavouritePage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (state is FavouriteLoaded) {
             if (state.favourites.isEmpty) {
-              return const Center(child: Text("No favourites yet"));
+              return Center(
+                  child: Lottie.asset(
+                'assets/lottie/Cute heart broken.json',
+              ));
+              // return const Center(child: Text("No favourites yet"));
             }
 
             return ListView.builder(

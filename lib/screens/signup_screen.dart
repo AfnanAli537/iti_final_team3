@@ -62,7 +62,6 @@ class SignUpPage extends StatelessWidget {
                       child: Form(
                         key: formKey,
                         child: Column(
-                          spacing: 15,
                           children: [
                             AppTextField(
                               controller: userNameController,
@@ -70,12 +69,14 @@ class SignUpPage extends StatelessWidget {
                               textContent: AppStrings.userName,
                               validator: FormValidator.validateName,
                             ),
+                            const SizedBox(height: 20),
                             AppTextField(
                               controller: emailController,
                               prefixIcon: const Icon(Icons.email),
                               textContent: AppStrings.email,
                               validator: FormValidator.validateEmail,
                             ),
+                            const SizedBox(height: 20),
                             AppTextField(
                               controller: passwordController,
                               prefixIcon: const Icon(Icons.lock),
@@ -83,6 +84,7 @@ class SignUpPage extends StatelessWidget {
                               textContent: AppStrings.password,
                               validator: FormValidator.validatePassword,
                             ),
+                            const SizedBox(height: 20),
                             AppTextField(
                               controller: confirmPasswordController,
                               textContent: AppStrings.confirmPassword,
@@ -94,44 +96,54 @@ class SignUpPage extends StatelessWidget {
                                 value,
                               ),
                             ),
+                            const SizedBox(height: 20),
                             (state is SignUpLoadingState)
-                                    ? const SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: CircularProgressIndicator(),
-                                      )
-                                    : SizedBox(
-                              width: double.infinity,
-                              child:(state is SignUpLoadingState)
-                                    ? const SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: CircularProgressIndicator(),
-                                      )
-                                    :  ElevatedButton(
-                                onPressed: () {
-                                  if (formKey.currentState!.validate()) {
-                                    BlocProvider.of<SignUpBloc>(context).add(
-                                      SignUpSubmittedEvent(
-                                        name: userNameController.text.trim(),
-                                        email: emailController.text.trim(),
-                                        password:
-                                            passwordController.text.trim(),
-                                        confirmPassword:
-                                            confirmPasswordController.text
-                                                .trim(),
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                        AppStrings.signUp,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.bodyMedium,
-                                      ),
-                              ),
-                            ),
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : SizedBox(
+                                    width: double.infinity,
+                                    child: (state is SignUpLoadingState)
+                                        ? const SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : ElevatedButton(
+                                            onPressed: () {
+                                              if (formKey.currentState!
+                                                  .validate()) {
+                                                BlocProvider.of<SignUpBloc>(
+                                                        context)
+                                                    .add(
+                                                  SignUpSubmittedEvent(
+                                                    name: userNameController
+                                                        .text
+                                                        .trim(),
+                                                    email: emailController.text
+                                                        .trim(),
+                                                    password: passwordController
+                                                        .text
+                                                        .trim(),
+                                                    confirmPassword:
+                                                        confirmPasswordController
+                                                            .text
+                                                            .trim(),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: Text(
+                                              AppStrings.signUp,
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.bodyMedium,
+                                            ),
+                                          ),
+                                  ),
+                            const SizedBox(height: 20),
                           ],
                         ),
                       ),
@@ -143,6 +155,7 @@ class SignUpPage extends StatelessWidget {
                           AppStrings.oldAccount,
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
+                        const SizedBox(width: 10),
                         TextButton(
                           onPressed: () {
                             Navigator.pushReplacementNamed(context, '/login');

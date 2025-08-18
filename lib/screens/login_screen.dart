@@ -57,12 +57,10 @@ class LoginPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
-                        spacing: 40,
                         children: [
                           Form(
                             key: formKey,
                             child: Column(
-                              spacing: 10,
                               children: [
                                 AppTextField(
                                   controller: emailController,
@@ -70,6 +68,7 @@ class LoginPage extends StatelessWidget {
                                   textContent: AppStrings.email,
                                   validator: FormValidator.validateEmail,
                                 ),
+                                const SizedBox(height: 10),
                                 AppTextField(
                                   controller: passwordController,
                                   prefixIcon: const Icon(Icons.lock),
@@ -77,6 +76,7 @@ class LoginPage extends StatelessWidget {
                                   textContent: AppStrings.password,
                                   validator: FormValidator.validatePassword,
                                 ),
+                                const SizedBox(height: 10),
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: TextButton(
@@ -92,6 +92,7 @@ class LoginPage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                                const SizedBox(height: 10),
                                 (state is LoginLoadingState)
                                     ? const SizedBox(
                                         height: 20,
@@ -125,9 +126,11 @@ class LoginPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
+                                const SizedBox(height: 10),
                               ],
                             ),
                           ),
+                          const SizedBox(height: 20),
                           Text(
                             AppStrings.or,
                             style: Theme.of(context).textTheme.titleSmall,
@@ -172,12 +175,12 @@ class LoginPage extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 10,
                       children: [
                         Text(
                           AppStrings.newAccount,
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
+                        const SizedBox(width: 10),
                         TextButton(
                           onPressed: () {
                             Navigator.pushReplacementNamed(context, '/signup');

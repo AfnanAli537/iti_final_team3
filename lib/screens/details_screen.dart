@@ -3,6 +3,7 @@ import 'package:iti_final_team3/data/repo/image_model.dart';
 import 'package:iti_final_team3/data/repo/image_repo.dart';
 import 'package:iti_final_team3/screens/heart_icon.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
+import 'package:iti_final_team3/widget/grid_view.dart';
 import 'package:iti_final_team3/widget/show_toast.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -56,51 +57,7 @@ class DetailsPage extends StatelessWidget {
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                ),
-                itemCount: otherImages.length,
-                itemBuilder: (context, i) {
-                  final imageUrl = otherImages[i];
-                  return GestureDetector(
-                    onTap: () async {
-                      final imageModel =
-                          await imageService.fetchImageModelByUrl(imageUrl);
-                      if (imageModel != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                DetailsPage(image: imageModel, images: images),
-                          ),
-                        );
-                      } else {
-                        AppToast.showToast(
-                            AppStrings.detailsNotFound, Colors.red);
-                      }
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        imageUrl,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, progress) {
-                          if (progress == null) return child;
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        },
-                        errorBuilder: (_, __, ___) =>
-                            const Icon(Icons.broken_image),
-                      ),
-                    ),
-                  );
-                },
-              ),
+              child: ImagesGridView(allImages: otherImages),
             ),
           ],
         ),

@@ -17,7 +17,6 @@ class UploadPage extends StatelessWidget {
     Future<void> pickImage() async {
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
-        // ignore: use_build_context_synchronously
         context.read<UploadBloc>().add(ImagePicked(File(pickedFile.path)));
       }
     }
@@ -34,6 +33,9 @@ class UploadPage extends StatelessWidget {
               decoration: const InputDecoration(labelText: AppStrings.title),
               onChanged: (value) =>
                   context.read<UploadBloc>().add(TitleChanged(value)),
+              onTapOutside: (_) {
+                FocusScope.of(context).unfocus();
+              },
             ),
             const SizedBox(height: 10),
             TextField(
@@ -41,46 +43,50 @@ class UploadPage extends StatelessWidget {
                   const InputDecoration(labelText: AppStrings.description),
               onChanged: (value) =>
                   context.read<UploadBloc>().add(DescriptionChanged(value)),
-            ),
-            const SizedBox(height: 20),
-            BlocBuilder<UploadBloc, UploadState>(
-              builder: (context, state) {
-                if (state.pickedImage != null) {
-                  return Image.file(state.pickedImage!, height: 150);
-                }
-                return const Text(AppStrings.noImageSelected);
+              onTapOutside: (_) {
+                FocusScope.of(context).unfocus();
               },
-            ),
-            const SizedBox(height: 8),
-            FloatingActionButton(
-              onPressed: () {
-                pickImage();
-              },
-              child: const Icon(Icons.add_a_photo),
             ),
             const SizedBox(height: 20),
             BlocConsumer<UploadBloc, UploadState>(
               listener: (context, state) {
-                if (state.isSuccess) {
+                if (state is UploadSuccess) {
                   AppToast.showToast(AppStrings.uploadSuccessful, Colors.green);
                   context.read<NavigationBloc>().add(NavigateTo(0));
                   context.read<UploadBloc>().add(ClearFormEvent());
-                } else if (state.errorMessage.isNotEmpty) {
+                } else if (state is UploadFailure) {
                   AppToast.showToast(state.errorMessage, Colors.red);
                 }
               },
               builder: (context, state) {
-                if (state.isSubmitting) {
-                  return const CircularProgressIndicator();
-                }
-                return ElevatedButton(
-                  onPressed: () {
-                    context.read<UploadBloc>().add(UploadSubmitted());
-                  },
-                  child: const Text(AppStrings.upload),
+                return Column(
+                  children: [
+                    if (state.pickedImage != null)
+                      Image.file(state.pickedImage!, height: 150)
+                    else
+                      const Text(AppStrings.noImageSelected),
+                    const SizedBox(height: 8),
+                    FloatingActionButton(
+                      onPressed: () {
+                        pickImage();
+                      },
+                      child: const Icon(Icons.add_a_photo),
+                    ),
+                    const SizedBox(height: 8),
+                    if (state is UploadSubmitting)
+                      const CircularProgressIndicator()
+                    else
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<UploadBloc>().add(UploadSubmitted());
+                        },
+                        child: const Text(AppStrings.upload),
+                      ),
+                  ],
                 );
               },
-            )
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

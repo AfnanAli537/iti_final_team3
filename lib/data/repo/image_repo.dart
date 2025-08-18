@@ -66,4 +66,18 @@ class ImageRepository {
     }
     return null;
   }
+
+  Stream<List<ImageModel>> searchImages(String query) {
+    if (query.isEmpty) return const Stream.empty();
+
+    return firestore
+        .collection('images')
+        .orderBy('title')
+        .startAt([query])
+        .endAt(['$query\uf8ff'])
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => ImageModel.fromMap(doc.data()))
+            .toList());
+  }
 }

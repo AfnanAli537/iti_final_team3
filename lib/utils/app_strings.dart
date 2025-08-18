@@ -66,4 +66,9 @@ class AppStrings {
   static const String welcome = 'Welcome to SnapBoard';
   static const String detailsNotFound = 'Details not found';
   static const String noImagesYet = 'No images yet';
+  static const String search = 'Search';
+  static const String serachFalid = "falid to search";
+  static const String noResult = "no results found...";
+  static const String feildResult = "Search...";
+  static const String clear = "Clear";
 }
