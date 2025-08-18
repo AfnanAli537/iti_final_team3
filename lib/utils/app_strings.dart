@@ -46,4 +46,7 @@ class AppStrings {
   static const String verifyEmail = "Please verify your email address.";
   static const String or = "or";
   static const String loginWithGoogle = "Login with Google";
+  static const String mode = 'Mode';
+  static const String darkmode = 'Dark';
+  static const String lightmode = 'Light';
 }

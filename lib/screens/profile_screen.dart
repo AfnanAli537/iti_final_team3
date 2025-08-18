@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
-import 'package:iti_final_team3/bloc/theme_bloc/theme_bloc.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_event.dart';
 import 'package:iti_final_team3/screens/login_screen.dart';
+import 'package:iti_final_team3/bloc/theme_bloc/theme_bloc.dart';
+import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/widget/profileinfo.dart';
 import 'package:iti_final_team3/widget/profilephoto.dart';
 
@@ -34,7 +34,7 @@ class ProfilePage extends StatelessWidget {
         bool isDarkMode = theme.brightness == Brightness.dark;
 
         return Scaffold(
-          appBar: AppBar(title: const Text("Profile")),
+          appBar: AppBar(title: const Text('Profile')),
           body: SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -55,7 +55,7 @@ class ProfilePage extends StatelessWidget {
                   // الاسم
                   ProfileInfoRow(
                     icon: Icons.person,
-                    label: "Name",
+                    label: AppStrings.name,
                     value: currentUser?.displayName ?? 'No Name',
                     iconColor: colorScheme.primary,
                     labelStyle: textTheme.titleLarge?.copyWith(
@@ -70,7 +70,7 @@ class ProfilePage extends StatelessWidget {
                   // الإيميل
                   ProfileInfoRow(
                     icon: Icons.email,
-                    label: "Email",
+                    label: AppStrings.email,
                     value: currentUser?.email ?? 'No Email',
                     iconColor: colorScheme.primary,
                     labelStyle: textTheme.titleLarge?.copyWith(
@@ -80,22 +80,24 @@ class ProfilePage extends StatelessWidget {
                       color: colorScheme.secondary,
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
 
                   // تغيير المود
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.brightness_6,
-                            color: colorScheme.primary,
-                            size: 30,
+                      Expanded(
+                        child: ProfileInfoRow(
+                          icon: Icons.brightness_6,
+                          label: AppStrings.mode,
+                          value: isDarkMode ? AppStrings.darkmode :AppStrings.lightmode,
+                          iconColor: colorScheme.primary,
+                          labelStyle: textTheme.titleLarge,
+                          valueStyle: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.secondary,
+                            fontWeight: FontWeight.w600,
                           ),
-                          const SizedBox(width: 10),
-                          Text('Dark Mode', style: textTheme.titleLarge),
-                        ],
+                        ),
                       ),
                       Switch(
                         value: isDarkMode,
@@ -137,49 +139,3 @@ class ProfilePage extends StatelessWidget {
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:heba/bloc/login_bloc/login_bloc.dart';
-// import 'package:heba/screens/login_screen.dart';
-
-// class ProfilePage extends StatelessWidget {
-//   const ProfilePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocConsumer<LoginBloc, LoginState>(
-//       listener: (context, state) {
-//         if (state is LogoutState) {
-//           Navigator.pushAndRemoveUntil(
-//             context,
-//             MaterialPageRoute(builder: (context) => LoginPage()),
-//             (route) => false,
-//           );
-//         }
-//       },
-//       builder: (context, state) {
-//         return Column(
-//           spacing: 20,
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             const Center(
-//               child: Icon(Icons.account_circle_rounded),
-//             ),
-//             Text(
-//               'profile screen',
-//               style: Theme.of(context).textTheme.labelMedium,
-//             ),
-//             ElevatedButton(
-//               onPressed: () {
-//                 context.read<LoginBloc>().add(LogoutEvent());
-//               },
-//               child: Text('Logout'),
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-// }

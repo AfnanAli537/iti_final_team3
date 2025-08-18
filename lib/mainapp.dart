@@ -2,12 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/bloc/favourite_bloc/favourite_bloc.dart';
+import 'package:iti_final_team3/bloc/favourite_bloc/favourite_event.dart';
 import 'package:iti_final_team3/bloc/home_bloc/image_bloc.dart';
+import 'package:iti_final_team3/bloc/like_bloc/like_bloc.dart';
+import 'package:iti_final_team3/bloc/like_bloc/like_event.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
 import 'package:iti_final_team3/bloc/nav_bloc/nav_bloc.dart';
 import 'package:iti_final_team3/bloc/signup_bloc/signup_bloc.dart';
 import 'package:iti_final_team3/bloc/splash_bloc/splash_bloc.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_bloc.dart';
+import 'package:iti_final_team3/bloc/theme_bloc/theme_event.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_state.dart';
 import 'package:iti_final_team3/bloc/upload_data/upload_bloc.dart';
 import 'package:iti_final_team3/data/models/auth_repo.dart';
@@ -34,7 +38,7 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (_) => SignUpBloc(authRepo)),
         BlocProvider(create: (_) => LoginBloc(authRepo)),
         BlocProvider(create: (_) => SplashBloc()),
-        BlocProvider(create: (_) => ThemeBloc()),
+              BlocProvider(create: (context) => ThemeBloc()..add(LoadThemeEvent())),
         BlocProvider(
           create: (_) => ImageBloc(ImageRepository())..add(LoadImages()),
         ),
@@ -44,11 +48,16 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (_) => NavigationBloc(),
         ),
+   BlocProvider(
+          create: (_) =>
+              FavouriteBloc(FavoriteRepository(), FirebaseAuth.instance)
+                ..add(LoadFavourites()),
+        ),
         BlocProvider(
-          create: (_) => FavouriteBloc(
-            FavoriteRepository(),
+          create: (context) => LikeBloc(
+            FavoriteRepository(), // نفس الريبو اللي عندك
             FirebaseAuth.instance,
-          ),
+          )..add(const LoadLikes()),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
