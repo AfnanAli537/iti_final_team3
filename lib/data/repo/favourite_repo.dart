@@ -4,16 +4,18 @@ import 'package:iti_final_team3/data/repo/image_model.dart';
 class FavoriteRepository {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<void> addToFavorites(String userId, ImageModel image) async {
-    await firestore.collection('users').doc(userId).collection('favorites').add(
-      {
-        'url': image.url,
-        'title': image.title,
-        'description': image.description,
-      },
-    );
+Future<void> addToFavorites(String userId, ImageModel image) async {
+    await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('favorites')
+        .add({
+          'url': image.url,
+          'title': image.title,
+          'description': image.description,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
   }
-
   Future<void> removeFromFavorites(String userId, String imageUrl) async {
     final snapshot = await firestore
         .collection('users')
@@ -32,6 +34,7 @@ class FavoriteRepository {
         .collection('users')
         .doc(userId)
         .collection('favorites')
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map(
           (snapshot) => snapshot.docs
