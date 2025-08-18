@@ -1,37 +1,43 @@
+
 part of 'upload_bloc.dart';
 
-class UploadState {
-  final File? pickedImage;
+abstract class UploadState {
   final String title;
   final String description;
-  final bool isSubmitting;
-  final bool isSuccess;
-  final String errorMessage;
+  final File? pickedImage;
 
-  UploadState({
-    this.pickedImage,
+  const UploadState({
     this.title = '',
     this.description = '',
-    this.isSubmitting = false,
-    this.isSuccess = false,
-    this.errorMessage = '',
+    this.pickedImage,
   });
+}
 
-  UploadState copyWith({
-    File? pickedImage,
-    String? title,
-    String? description,
-    bool? isSubmitting,
-    bool? isSuccess,
-    String? errorMessage,
-  }) {
-    return UploadState(
-      pickedImage: pickedImage ?? this.pickedImage,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      isSubmitting: isSubmitting ?? this.isSubmitting,
-      isSuccess: isSuccess ?? this.isSuccess,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
-  }
+class UploadInitial extends UploadState {
+  const UploadInitial() : super();
+}
+
+class UploadChanged extends UploadState {
+  const UploadChanged({
+    required super.title,
+    required super.description,
+    super.pickedImage,
+  });
+}
+
+class UploadSubmitting extends UploadState {
+  const UploadSubmitting({
+    required super.title,
+    required super.description,
+    super.pickedImage,
+  });
+}
+
+class UploadSuccess extends UploadState {
+  const UploadSuccess() : super();
+}
+
+class UploadFailure extends UploadState {
+  final String errorMessage;
+  const UploadFailure(this.errorMessage);
 }

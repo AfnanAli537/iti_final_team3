@@ -8,6 +8,7 @@ import 'package:iti_final_team3/bloc/home_bloc/image_bloc.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
 import 'package:iti_final_team3/bloc/nav_bloc/nav_bloc.dart';
 import 'package:iti_final_team3/bloc/profile_bloc/profile_bloc.dart';
+import 'package:iti_final_team3/bloc/search_bloc/search_bloc.dart';
 import 'package:iti_final_team3/bloc/signup_bloc/signup_bloc.dart';
 import 'package:iti_final_team3/bloc/splash_bloc/splash_bloc.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_bloc.dart';
@@ -62,15 +63,19 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LikeBloc(
-            FavoriteRepository(), 
+            FavoriteRepository(),
             FirebaseAuth.instance,
           )..add(const LoadLikes()),
         ),
         BlocProvider(
-          create: (_) => ProfileBloc(UserRepository())
-            ..add(FetchProfileImageEvent()),
+          create: (_) =>
+              ProfileBloc(UserRepository())..add(FetchProfileImageEvent()),
         ),
-        
+        BlocProvider(
+          create: (_) => SearchBloc(
+            ImageRepository(),
+          ),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {

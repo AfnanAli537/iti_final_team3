@@ -8,7 +8,9 @@ class AppTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool isPassword;
   final bool isSecured;
+  final IconButton? suffixIcon;
   final String? Function(String?)? validator;
+  final Function(String)? onChanged;
 
   const AppTextField(
       {super.key,
@@ -17,7 +19,9 @@ class AppTextField extends StatelessWidget {
       this.prefixIcon,
       this.isSecured = false,
       this.isPassword = false,
-      this.validator});
+      this.suffixIcon,
+      this.validator,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +39,24 @@ class AppTextField extends StatelessWidget {
             decoration: InputDecoration(
               hintText: textContent,
               prefixIcon: prefixIcon,
-              suffixIcon: isPassword
-                  ? IconButton(
-                      icon: Icon(
-                        state.isoObscure
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                      ),
-                      onPressed: () {
-                        context
-                            .read<PasswordVisibilityBloc>()
-                            .add(TogglePasswordVisibilityEvent());
-                      },
-                    )
-                  : null,
+              suffixIcon: suffixIcon ??
+                  (isPassword
+                      ? IconButton(
+                          icon: Icon(
+                            state.isoObscure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            context
+                                .read<PasswordVisibilityBloc>()
+                                .add(TogglePasswordVisibilityEvent());
+                          },
+                        )
+                      : null),
             ),
             validator: validator,
+            onChanged: onChanged,
           ),
         );
       },

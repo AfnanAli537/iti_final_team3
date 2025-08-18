@@ -6,6 +6,7 @@ import 'package:iti_final_team3/data/repo/image_repo.dart';
 import 'package:iti_final_team3/screens/details_screen.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/widget/show_toast.dart';
+import 'package:lottie/lottie.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,7 +22,11 @@ class HomePage extends StatelessWidget {
       body: BlocBuilder<ImageBloc, ImageState>(
         builder: (context, state) {
           if (state is ImageLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: Lottie.asset(
+                'assets/lottie/empty1.json',
+              ),
+            );
           } else if (state is ImageLoaded) {
             final images = state.images;
 
@@ -40,7 +45,6 @@ class HomePage extends StatelessWidget {
                         await imageService.fetchImageModelByUrl(imageUrl);
                     if (imageModel != null) {
                       Navigator.push(
-                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
