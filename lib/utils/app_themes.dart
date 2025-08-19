@@ -11,7 +11,7 @@ class AppThemes {
       centerTitle: true,
       shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(2)),
       shadowColor: AppColors.secnderyColor,
-      titleTextStyle: AppTextStyles.heading, // حجم ثابت
+      titleTextStyle: AppTextStyles.heading,
     ),
     scaffoldBackgroundColor: AppColors.background,
     fontFamily: 'Poppins',
@@ -22,10 +22,10 @@ class AppThemes {
       hintStyle: const TextStyle(color: Colors.grey),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
     ),
-    textTheme: const TextTheme(
-      bodyMedium: AppTextStyles.subheading,
-      titleLarge: AppTextStyles.heading,
-      displayLarge: AppTextStyles.title,
+    textTheme: TextTheme(
+      bodyMedium: AppTextStyles.subheading.copyWith(color: AppColors.textLight),
+      titleLarge: AppTextStyles.heading.copyWith(color: AppColors.text),
+      displayLarge: AppTextStyles.title.copyWith(color: AppColors.text),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
@@ -57,7 +57,7 @@ class AppThemes {
       shadowColor: AppColors.secnderyColor,
       titleTextStyle: AppTextStyles.heading.copyWith(
         color: AppColors.darkText,
-      ), // نفس الحجم
+      ),
     ),
     scaffoldBackgroundColor: AppColors.darkBackground,
     fontFamily: 'Poppins',
@@ -69,10 +69,12 @@ class AppThemes {
       hintStyle: const TextStyle(color: Colors.grey),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
     ),
-    textTheme: const TextTheme(
-      bodyMedium: AppTextStyles.darkSubheading,
-      titleLarge: AppTextStyles.darkHeading,
-      displayLarge: AppTextStyles.darkTitle,
+    textTheme: TextTheme(
+      bodyMedium: AppTextStyles.subheading.copyWith(
+        color: AppColors.darkTextLight,
+      ),
+      titleLarge: AppTextStyles.heading.copyWith(color: AppColors.darkText),
+      displayLarge: AppTextStyles.title.copyWith(color: AppColors.darkText),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
