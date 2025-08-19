@@ -50,6 +50,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
         state.title.isEmpty ||
         state.description.isEmpty) {
       emit(const UploadFailure(AppStrings.errorMessage));
+      return;
     }
 
     emit(UploadSubmitting(
