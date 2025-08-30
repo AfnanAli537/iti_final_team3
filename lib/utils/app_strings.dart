@@ -75,4 +75,6 @@ class AppStrings {
   static const String mode = 'Mode';
   static const String darkmode = 'Dark';
   static const String lightmode = 'Light';
+  static const String discard = 'Discard';
+
 }

@@ -10,7 +10,6 @@ import 'package:iti_final_team3/bloc/nav_bloc/nav_bloc.dart';
 import 'package:iti_final_team3/bloc/profile_bloc/profile_bloc.dart';
 import 'package:iti_final_team3/bloc/search_bloc/search_bloc.dart';
 import 'package:iti_final_team3/bloc/signup_bloc/signup_bloc.dart';
-import 'package:iti_final_team3/bloc/splash_bloc/splash_bloc.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_bloc.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_event.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_state.dart';
@@ -43,12 +42,11 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (_) => ImageBloc(ImageRepository())..add(LoadImages()),
         ),
-        BlocProvider(create: (_) => SplashBloc()),
         BlocProvider(create: (_) => SignUpBloc(authRepo)),
         BlocProvider(create: (_) => LoginBloc(authRepo)),
         BlocProvider(create: (context) => ThemeBloc()..add(LoadThemeEvent())),
         BlocProvider(
-          create: (_) => UploadBloc(repository: ImageRepository()),
+          create: (_) => UploadBloc(imageRepository: ImageRepository(),userRepository: UserRepository()),
         ),
         BlocProvider(
           create: (_) => NavigationBloc(),

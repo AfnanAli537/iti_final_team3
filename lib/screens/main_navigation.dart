@@ -9,7 +9,7 @@ import 'package:iti_final_team3/screens/upload_screen.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 
 class MainNavigation extends StatelessWidget {
-  final List<Widget> pages = const [
+  final List<Widget> pages =  [
     HomePage(),
     SearchPage(),
     UploadPage(),
@@ -17,7 +17,7 @@ class MainNavigation extends StatelessWidget {
     ProfilePage(),
   ];
 
-  const MainNavigation({super.key});
+  MainNavigation({super.key});
 
   @override
   Widget build(BuildContext context) {

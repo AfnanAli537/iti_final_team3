@@ -44,6 +44,7 @@ class UserRepository {
       'email': email,
       'profileImageUrl': profileImageUrl ??
           'https://cdn-icons-png.flaticon.com/512/847/847969.png',
+      'uploadedImages': [],
     });
   }
 
@@ -86,5 +87,44 @@ class UserRepository {
         .get();
 
     return query.docs.isNotEmpty;
+  }
+
+  Future<void> addImageToUser(String imageId) async {
+    final uid = currentUserId;
+    if (uid.isEmpty) throw Exception("No logged in user");
+
+    await firestore.collection('users').doc(uid).update({
+      'uploadedImages': FieldValue.arrayUnion([imageId])
+    });
+  }
+
+  Future<void> removeImageFromUser(String imageId) async {
+    final uid = currentUserId;
+    if (uid.isEmpty) throw Exception("No logged in user");
+
+    await firestore.collection('users').doc(uid).update({
+      'uploadedImages': FieldValue.arrayRemove([imageId])
+    });
+  }
+
+  Future<void> updateImage({
+    required String imageId,
+    String? title,
+    String? description,
+    String? url,
+  }) async {
+    final updateData = <String, dynamic>{};
+    if (title != null) updateData['title'] = title;
+    if (description != null) updateData['description'] = description;
+    if (url != null) updateData['url'] = url;
+
+    if (updateData.isNotEmpty) {
+      await firestore.collection('images').doc(imageId).update(updateData);
+    }
+  }
+
+  Future<void> deleteImage(String imageId) async {
+    await firestore.collection('images').doc(imageId).delete();
+    await removeImageFromUser(imageId);
   }
 }

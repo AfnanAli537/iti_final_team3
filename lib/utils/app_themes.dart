@@ -22,10 +22,10 @@ class AppThemes {
       hintStyle: const TextStyle(color: Colors.grey),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
     ),
-    textTheme: const TextTheme(
-      bodyMedium: AppTextStyles.subheading,
-      titleLarge: AppTextStyles.heading,
-      displayLarge: AppTextStyles.title,
+    textTheme: TextTheme(
+      bodyMedium: AppTextStyles.subheading.copyWith(color: AppColors.textLight),
+      titleLarge: AppTextStyles.heading.copyWith(color: AppColors.text),
+      displayLarge: AppTextStyles.title.copyWith(color: AppColors.text),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
@@ -69,10 +69,12 @@ class AppThemes {
       hintStyle: const TextStyle(color: Colors.grey),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
     ),
-    textTheme: const TextTheme(
-      bodyMedium: AppTextStyles.darkSubheading,
-      titleLarge: AppTextStyles.darkHeading,
-      displayLarge: AppTextStyles.darkTitle,
+    textTheme: TextTheme(
+      bodyMedium: AppTextStyles.subheading.copyWith(
+        color: AppColors.darkTextLight,
+      ),
+      titleLarge: AppTextStyles.heading.copyWith(color: AppColors.darkText),
+      displayLarge: AppTextStyles.title.copyWith(color: AppColors.darkText),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(

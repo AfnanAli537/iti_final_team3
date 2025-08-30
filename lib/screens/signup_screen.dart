@@ -29,7 +29,7 @@ class SignUpPage extends StatelessWidget {
                   '/login',
                 );
               } else if (state is SignUpFailureState) {
-                AppToast.showToast(AppStrings.verifyEmail, Colors.red);
+                AppToast.showToast(AppStrings.signUpFailure, Colors.red);
               }
             },
             builder: (context, state) {
@@ -105,43 +105,32 @@ class SignUpPage extends StatelessWidget {
                                   )
                                 : SizedBox(
                                     width: double.infinity,
-                                    child: (state is SignUpLoadingState)
-                                        ? const SizedBox(
-                                            height: 20,
-                                            width: 20,
-                                            child: CircularProgressIndicator(),
-                                          )
-                                        : ElevatedButton(
-                                            onPressed: () {
-                                              if (formKey.currentState!
-                                                  .validate()) {
-                                                BlocProvider.of<SignUpBloc>(
-                                                        context)
-                                                    .add(
-                                                  SignUpSubmittedEvent(
-                                                    name: userNameController
-                                                        .text
-                                                        .trim(),
-                                                    email: emailController.text
-                                                        .trim(),
-                                                    password: passwordController
-                                                        .text
-                                                        .trim(),
-                                                    confirmPassword:
-                                                        confirmPasswordController
-                                                            .text
-                                                            .trim(),
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                            child: Text(
-                                              AppStrings.signUp,
-                                              style: Theme.of(
-                                                context,
-                                              ).textTheme.bodyMedium,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        if (formKey.currentState!.validate()) {
+                                          BlocProvider.of<SignUpBloc>(context)
+                                              .add(
+                                            SignUpSubmittedEvent(
+                                              name: userNameController.text
+                                                  .trim(),
+                                              email:
+                                                  emailController.text.trim(),
+                                              password: passwordController.text
+                                                  .trim(),
+                                              confirmPassword:
+                                                  confirmPasswordController.text
+                                                      .trim(),
                                             ),
-                                          ),
+                                          );
+                                        }
+                                      },
+                                      child: Text(
+                                        AppStrings.signUp,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium,
+                                      ),
+                                    ),
                                   ),
                             const SizedBox(height: 20),
                           ],

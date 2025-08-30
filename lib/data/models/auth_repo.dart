@@ -81,20 +81,6 @@ class AuthRepo {
     }
   }
 
-  // Future<UserCredential?> signInWithGoogle() async {
-  //   // Trigger the authentication flow
-  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //   if (googleUser == null) {
-  //     debugPrint('Google sign-in aborted by user');
-  //     return null;
-  //   }
-  //   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-  //   final credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth.accessToken,
-  //     idToken: googleAuth.idToken,
-  //   );
-  //   return await FirebaseAuth.instance.signInWithCredential(credential);
-  // }
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       if (await _userRepository.isEmailRegistered(email)) {

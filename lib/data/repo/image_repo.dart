@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:iti_final_team3/data/repo/image_model.dart';
 
@@ -30,14 +31,16 @@ class ImageRepository {
     return data['secure_url'];
   }
 
-  Future<void> saveImageData(
+  Future<String> saveImageData(
       String url, String title, String description) async {
-    await firestore.collection('images').add({
+    final docRef = await firestore.collection('images').add({
       'url': url,
       'title': title,
       'description': description,
       'timestamp': FieldValue.serverTimestamp(),
+      'ownerId': FirebaseAuth.instance.currentUser?.uid,
     });
+    return docRef.id;
   }
 
   Stream<List<String>> fetchImages() {

@@ -8,8 +8,9 @@ import 'package:iti_final_team3/widget/show_toast.dart';
 import '../bloc/upload_data/upload_bloc.dart';
 
 class UploadPage extends StatelessWidget {
-  const UploadPage({super.key});
-
+  UploadPage({super.key});
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final picker = ImagePicker();
@@ -21,6 +22,12 @@ class UploadPage extends StatelessWidget {
       }
     }
 
+    void discardImageInfo() {
+      context.read<UploadBloc>().add(ClearFormEvent());
+      titleController.text = '';
+      descriptionController.text = '';
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.uploadImage)),
       body: SingleChildScrollView(
@@ -30,6 +37,7 @@ class UploadPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextField(
+              controller: titleController,
               decoration: const InputDecoration(labelText: AppStrings.title),
               onChanged: (value) =>
                   context.read<UploadBloc>().add(TitleChanged(value)),
@@ -39,6 +47,7 @@ class UploadPage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             TextField(
+              controller: descriptionController,
               decoration:
                   const InputDecoration(labelText: AppStrings.description),
               onChanged: (value) =>
@@ -82,6 +91,13 @@ class UploadPage extends StatelessWidget {
                         },
                         child: const Text(AppStrings.upload),
                       ),
+                    ElevatedButton(
+                      onPressed: () {
+                        discardImageInfo();
+                      },
+                      child: const Text(AppStrings.discard),
+                    ),
+                    const SizedBox(height: 8),
                   ],
                 );
               },
