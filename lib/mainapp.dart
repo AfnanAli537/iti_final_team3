@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/bloc/favourite_bloc/favourite_event.dart';
 import 'package:iti_final_team3/bloc/form_bloc/form_bloc.dart';
 import 'package:iti_final_team3/bloc/favourite_bloc/favourite_bloc.dart';
+import 'package:iti_final_team3/bloc/google_signup_bloc/google_bloc.dart';
 import 'package:iti_final_team3/bloc/home_bloc/image_bloc.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
 import 'package:iti_final_team3/bloc/nav_bloc/nav_bloc.dart';
@@ -40,6 +41,7 @@ class MainApp extends StatelessWidget {
     final authRepo = AuthRepo();
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => GoogleSignupBloc(authRepo)),
         BlocProvider(
           create: (_) => ImageBloc(ImageRepository())..add(LoadImages()),
         ),

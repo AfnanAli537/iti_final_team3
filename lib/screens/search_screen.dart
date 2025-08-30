@@ -10,12 +10,11 @@ import 'package:iti_final_team3/widget/show_toast.dart';
 import 'package:lottie/lottie.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+  final TextEditingController searchController = TextEditingController();
+  SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController searchController = TextEditingController();
-
     return BlocConsumer<SearchBloc, SearchState>(listener: (context, state) {
       if (state is SearchError) {
         AppToast.showToast(AppStrings.noResult, Colors.red);
