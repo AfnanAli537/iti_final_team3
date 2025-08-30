@@ -13,8 +13,8 @@ class MainNavigation extends StatelessWidget {
     HomePage(),
     SearchPage(),
     UploadPage(),
-    FavouritePage(),
-    ProfilePage(),
+    const FavouritePage(),
+    const ProfilePage(),
   ];
 
   MainNavigation({super.key});

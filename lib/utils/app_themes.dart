@@ -11,7 +11,7 @@ class AppThemes {
       centerTitle: true,
       shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(2)),
       shadowColor: AppColors.secnderyColor,
-      titleTextStyle: AppTextStyles.heading, // حجم ثابت
+      titleTextStyle: AppTextStyles.heading,
     ),
     scaffoldBackgroundColor: AppColors.background,
     fontFamily: 'Poppins',
@@ -57,7 +57,7 @@ class AppThemes {
       shadowColor: AppColors.secnderyColor,
       titleTextStyle: AppTextStyles.heading.copyWith(
         color: AppColors.darkText,
-      ), // نفس الحجم
+      ),
     ),
     scaffoldBackgroundColor: AppColors.darkBackground,
     fontFamily: 'Poppins',

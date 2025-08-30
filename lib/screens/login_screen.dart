@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iti_final_team3/bloc/google_signup_bloc/google_bloc.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
 import 'package:iti_final_team3/bloc/profile_bloc/profile_bloc.dart';
 import 'package:iti_final_team3/utils/app_colors.dart';
@@ -149,41 +150,95 @@ class LoginPage extends StatelessWidget {
                             AppStrings.or,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
-                          // SizedBox(
-                          //   height: 50,
-                          //   child: ElevatedButton(
-                          //     onPressed: () {
-                          //       // BlocProvider.of<SignupBloc>(context).add(
-                          //       //   SignupGoogleEvent(),
-                          //       // );
-                          //     },
-                          //     style: Theme.of(context)
-                          //         .elevatedButtonTheme
-                          //         .style!
-                          //         .copyWith(
-                          //           backgroundColor: WidgetStateProperty.all(
-                          //             Colors.grey[200],
+                          //   SizedBox(
+                          //     height: 50,
+                          //     child: ElevatedButton(
+                          //       onPressed: () {
+                          //         BlocProvider.of<GoogleSignupBloc>(context).add(
+                          //           GoogleSignInRequested(),
+                          //         );
+                          //       },
+                          //       style: Theme.of(context)
+                          //           .elevatedButtonTheme
+                          //           .style!
+                          //           .copyWith(
+                          //             backgroundColor: WidgetStateProperty.all(
+                          //               Colors.grey[200],
+                          //             ),
                           //           ),
-                          //         ),
-                          //     child: Row(
-                          //       mainAxisSize: MainAxisSize.min,
-                          //       spacing: 10,
-                          //       mainAxisAlignment: MainAxisAlignment.center,
-                          //       children: [
-                          //         Text(
-                          //           AppStrings.loginWithGoogle,
-                          //           style: Theme.of(
-                          //             context,
-                          //           ).textTheme.bodyMedium,
-                          //         ),
-                          //         Icon(
-                          //           MyFlutterAppIcons.google,
-                          //           color: AppColors.mainColor,
-                          //         ),
-                          //       ],
+                          //       child: Row(
+                          //         mainAxisSize: MainAxisSize.min,
+
+                          //         mainAxisAlignment: MainAxisAlignment.center,
+                          //         children: [
+                          //           Text(
+                          //             AppStrings.loginWithGoogle,
+                          //             style: Theme.of(
+                          //               context,
+                          //             ).textTheme.bodyMedium,
+                          //           ),
+                          //           Icon(
+                          //             Icons.g_mobiledata_outlined,
+                          //             color: AppColors.mainColor,
+                          //           ),
+                          //         ],
+                          //       ),
                           //     ),
                           //   ),
-                          // ),
+                          BlocConsumer<GoogleSignupBloc, GoogleSignupState>(
+                            listener: (context, state) {
+                              if (state is GoogleSignInSuccess) {
+                                AppToast.showToast(
+                                    "Google Login Success", Colors.green);
+
+                                // Example: fetch user profile if you need
+                                BlocProvider.of<ProfileBloc>(context)
+                                    .add(FetchProfileImageEvent());
+
+                                // Navigate to home
+                                Navigator.pushReplacementNamed(
+                                    context, '/main');
+                              } else if (state is GoogleSignInFailure) {
+                                AppToast.showToast(state.error, Colors.red);
+                              }
+                            },
+                            builder: (context, state) {
+                              if (state is GoogleSignInLoading) {
+                                return const CircularProgressIndicator();
+                              }
+                              return SizedBox(
+                                height: 50,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    BlocProvider.of<GoogleSignupBloc>(context)
+                                        .add(GoogleSignInRequested());
+                                  },
+                                  style: Theme.of(context)
+                                      .elevatedButtonTheme
+                                      .style!
+                                      .copyWith(
+                                        backgroundColor:
+                                            WidgetStateProperty.all(
+                                                Colors.grey[200]),
+                                      ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        AppStrings.loginWithGoogle,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      Icon(Icons.g_mobiledata_outlined,
+                                          color: AppColors.mainColor),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

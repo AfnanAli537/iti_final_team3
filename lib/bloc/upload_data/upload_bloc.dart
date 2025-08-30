@@ -54,7 +54,8 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     if (state.pickedImage == null ||
         state.title.isEmpty ||
         state.description.isEmpty) {
-      return emit(const UploadFailure(AppStrings.errorMessage));
+      emit(const UploadFailure(AppStrings.errorMessage));
+      return;
     }
 
     emit(UploadSubmitting(
