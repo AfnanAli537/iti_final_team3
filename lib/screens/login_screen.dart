@@ -150,52 +150,18 @@ class LoginPage extends StatelessWidget {
                             AppStrings.or,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
-                          //   SizedBox(
-                          //     height: 50,
-                          //     child: ElevatedButton(
-                          //       onPressed: () {
-                          //         BlocProvider.of<GoogleSignupBloc>(context).add(
-                          //           GoogleSignInRequested(),
-                          //         );
-                          //       },
-                          //       style: Theme.of(context)
-                          //           .elevatedButtonTheme
-                          //           .style!
-                          //           .copyWith(
-                          //             backgroundColor: WidgetStateProperty.all(
-                          //               Colors.grey[200],
-                          //             ),
-                          //           ),
-                          //       child: Row(
-                          //         mainAxisSize: MainAxisSize.min,
-
-                          //         mainAxisAlignment: MainAxisAlignment.center,
-                          //         children: [
-                          //           Text(
-                          //             AppStrings.loginWithGoogle,
-                          //             style: Theme.of(
-                          //               context,
-                          //             ).textTheme.bodyMedium,
-                          //           ),
-                          //           Icon(
-                          //             Icons.g_mobiledata_outlined,
-                          //             color: AppColors.mainColor,
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   ),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           BlocConsumer<GoogleSignupBloc, GoogleSignupState>(
                             listener: (context, state) {
                               if (state is GoogleSignInSuccess) {
                                 AppToast.showToast(
                                     "Google Login Success", Colors.green);
 
-                                // Example: fetch user profile if you need
                                 BlocProvider.of<ProfileBloc>(context)
                                     .add(FetchProfileImageEvent());
 
-                                // Navigate to home
                                 Navigator.pushReplacementNamed(
                                     context, '/main');
                               } else if (state is GoogleSignInFailure) {
@@ -215,11 +181,15 @@ class LoginPage extends StatelessWidget {
                                   },
                                   style: Theme.of(context)
                                       .elevatedButtonTheme
-                                      .style!
-                                      .copyWith(
+                                      .style
+                                      ?.copyWith(
                                         backgroundColor:
                                             WidgetStateProperty.all(
-                                                Colors.grey[200]),
+                                          Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? Colors.grey[200]
+                                              : Colors.grey[700],
+                                        ),
                                       ),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -231,8 +201,14 @@ class LoginPage extends StatelessWidget {
                                             .textTheme
                                             .bodyMedium,
                                       ),
-                                      Icon(Icons.g_mobiledata_outlined,
-                                          color: AppColors.mainColor),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Image.asset(
+                                        'assets/images/google_logo.png',
+                                        height: 27,
+                                        width: 27,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -241,6 +217,9 @@ class LoginPage extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
