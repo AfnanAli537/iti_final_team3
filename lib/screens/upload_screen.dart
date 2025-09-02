@@ -62,7 +62,7 @@ class UploadPage extends StatelessWidget {
                 if (state is UploadSuccess) {
                   AppToast.showToast(AppStrings.uploadSuccessful, Colors.green);
                   context.read<NavigationBloc>().add(NavigateTo(0));
-                  context.read<UploadBloc>().add(ClearFormEvent());
+                  discardImageInfo();
                 } else if (state is UploadFailure) {
                   AppToast.showToast(state.errorMessage, Colors.red);
                 }

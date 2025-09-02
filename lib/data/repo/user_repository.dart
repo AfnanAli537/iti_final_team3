@@ -127,4 +127,5 @@ class UserRepository {
     await firestore.collection('images').doc(imageId).delete();
     await removeImageFromUser(imageId);
   }
+  
 }

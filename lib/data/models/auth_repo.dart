@@ -26,12 +26,6 @@ class AuthRepo {
       await user?.sendEmailVerification();
       await user?.reload();
 
-      // await _userRepository.createUserDocument(
-      //   email: email,
-      //   userId: user!.uid,
-      //   profileImageUrl: 'https://cdn-icons-png.flaticon.com/512/847/847969.png', // default avatar
-      // );
-
       return _auth.currentUser;
     } on FirebaseAuthException catch (e) {
       debugPrint("Failed to sign up: ${e.message}");
@@ -94,11 +88,63 @@ class AuthRepo {
     }
   }
 
+  // Future<User?> signInWithGoogle() async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+  //     if (googleUser == null) return null;
+
+  //     final GoogleSignInAuthentication googleAuth =
+  //         await googleUser.authentication;
+
+  //     final credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
+
+  // UserCredential userCredential =
+  //     await _auth.signInWithCredential(credential);
+
+  //   await _userRepository.createUserDocument(
+  //     email: googleUser.email,
+  //     userId: userCredential.user!.uid,
+  //     profileImageUrl:
+  //         'https://cdn-icons-png.flaticon.com/512/847/847969.png',
+  //   );
+
+  // return userCredential.user;
+  //   } catch (e) {
+  //     throw Exception("Google Sign-In failed: $e");
+  //   }
+  // }
+
+  // Future<User?> signInWithGoogle() async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+  //     if (googleUser == null) return null;
+
+  //     final GoogleSignInAuthentication googleAuth =
+  //         await googleUser.authentication;
+
+  //     final credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
+
+  //     UserCredential userCredential =
+  //         await _auth.signInWithCredential(credential);
+  //     return userCredential.user;
+  //   } catch (e) {
+  //     throw Exception("Google Sign-In failed: $e");
+  //   }
+  // }
+
   Future<User?> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      if (googleUser == null) return null; 
+      if (googleUser == null) return null;
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -108,23 +154,23 @@ class AuthRepo {
         idToken: googleAuth.idToken,
       );
 
-      UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user?.uid)
-          .get();
-      if (!userDoc.exists) {
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      final User? user = userCredential.user;
+
+
         await _userRepository.createUserDocument(
-          email: googleUser.email,
-          userId: userCredential.user!.uid,
-          profileImageUrl:
-              'https://cdn-icons-png.flaticon.com/512/847/847969.png',
+          email: user!.email ?? "unknown",
+          profileImageUrl: user.photoURL ?? 'https://cdn-icons-png.flaticon.com/512/847/847969.png',
+          userId: user.uid,
         );
-      }
-      return userCredential.user;
+      
+
+      return user;
     } catch (e) {
-      throw Exception("Google Sign-In failed: $e");
+      print('Error during Google sign-in: $e');
+      return null;
     }
   }
 }

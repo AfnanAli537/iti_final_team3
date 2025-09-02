@@ -14,7 +14,8 @@ class LikeBloc extends Bloc<LikeEvent, LikeState> {
     on<ToggleLike>(_onToggleLike);
   }
 
-    Future<void> _onLoadLikes(LoadLikes event, Emitter<LikeState> emit) async {
+  Future<void> _onLoadLikes(
+      LoadLikes event, Emitter<LikeState> emit) async {
     final userId = auth.currentUser?.uid;
     if (userId == null) {
       emit(const LikeError("User not logged in"));
@@ -33,7 +34,8 @@ class LikeBloc extends Bloc<LikeEvent, LikeState> {
     }
   }
 
-  Future<void> _onToggleLike(ToggleLike event, Emitter<LikeState> emit) async {
+  Future<void> _onToggleLike(
+      ToggleLike event, Emitter<LikeState> emit) async {
     final userId = auth.currentUser?.uid;
     if (userId == null) {
       emit(const LikeError("User not logged in"));

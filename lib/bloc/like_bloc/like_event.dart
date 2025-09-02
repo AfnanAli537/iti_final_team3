@@ -8,7 +8,6 @@ abstract class LikeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// التبديل بين Like / Unlike
 class ToggleLike extends LikeEvent {
   final ImageModel image;
   const ToggleLike(this.image);
@@ -17,7 +16,6 @@ class ToggleLike extends LikeEvent {
   List<Object?> get props => [image];
 }
 
-/// تحميل كل الـ likes من الفايرستور
 class LoadLikes extends LikeEvent {
   const LoadLikes();
 }

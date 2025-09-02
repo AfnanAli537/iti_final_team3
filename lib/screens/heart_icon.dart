@@ -13,23 +13,33 @@ class LikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LikeBloc, LikeState>(
-      builder: (context, state) {
-        bool isLiked = false;
+  builder: (context, state) {
+    bool isLiked = false;
 
-        if (state is LikeLoaded) {
-          isLiked = state.likes.any((fav) => fav.url == image.url);
-        }
+    if (state is LikeLoaded) {
+      isLiked = state.likes.any((fav) => fav.url == image.url);
+    }
 
-        return IconButton(
-          icon: Icon(
-            isLiked ? Icons.favorite : Icons.favorite_border,
-            color: isLiked ? Colors.red : Colors.grey,
-          ),
-          onPressed: () {
-            context.read<LikeBloc>().add(ToggleLike(image));
-          },
-        );
+    if (state is LikeLoading) {
+      return const SizedBox(
+        width: 24,
+        height: 24,
+        child: CircularProgressIndicator(strokeWidth: 2),
+      );
+    }
+
+    return IconButton(
+      icon: Icon(
+        isLiked ? Icons.favorite : Icons.favorite_border,
+        color: isLiked ? Colors.red : Colors.grey,
+      ),
+      onPressed: () {
+        context.read<LikeBloc>().add(ToggleLike(image));
       },
     );
+  },
+);
+
   }
 }
+
