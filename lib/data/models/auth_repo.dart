@@ -88,66 +88,13 @@ class AuthRepo {
     }
   }
 
-  // Future<User?> signInWithGoogle() async {
-  //   try {
-  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-  //     if (googleUser == null) return null;
-
-  //     final GoogleSignInAuthentication googleAuth =
-  //         await googleUser.authentication;
-
-  //     final credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken,
-  //       idToken: googleAuth.idToken,
-  //     );
-
-  // UserCredential userCredential =
-  //     await _auth.signInWithCredential(credential);
-
-  //   await _userRepository.createUserDocument(
-  //     email: googleUser.email,
-  //     userId: userCredential.user!.uid,
-  //     profileImageUrl:
-  //         'https://cdn-icons-png.flaticon.com/512/847/847969.png',
-  //   );
-
-  // return userCredential.user;
-  //   } catch (e) {
-  //     throw Exception("Google Sign-In failed: $e");
-  //   }
-  // }
-
-  // Future<User?> signInWithGoogle() async {
-  //   try {
-  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-  //     if (googleUser == null) return null;
-
-  //     final GoogleSignInAuthentication googleAuth =
-  //         await googleUser.authentication;
-
-  //     final credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken,
-  //       idToken: googleAuth.idToken,
-  //     );
-
-  //     UserCredential userCredential =
-  //         await _auth.signInWithCredential(credential);
-  //     return userCredential.user;
-  //   } catch (e) {
-  //     throw Exception("Google Sign-In failed: $e");
-  //   }
-  // }
-
   Future<User?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       if (googleUser == null) return null;
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -155,17 +102,18 @@ class AuthRepo {
       );
 
       final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
 
       final User? user = userCredential.user;
 
+      if (user == null) return null;
 
-        await _userRepository.createUserDocument(
-          email: user!.email ?? "unknown",
-          profileImageUrl: user.photoURL ?? 'https://cdn-icons-png.flaticon.com/512/847/847969.png',
-          userId: user.uid,
-        );
-      
+      await _userRepository.createUserDocument(
+        email: user.email ?? "unknown",
+        profileImageUrl: user.photoURL ??
+            'https://cdn-icons-png.flaticon.com/512/847/847969.png',
+        userId: user.uid,
+      );
 
       return user;
     } catch (e) {

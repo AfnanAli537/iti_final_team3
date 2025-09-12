@@ -55,7 +55,8 @@ class UserRepository {
     final uid = userId ?? currentUserId;
     final updateData = <String, dynamic>{};
 
-    if (profileImageUrl != null) updateData['profileImageUrl'] = profileImageUrl;
+    if (profileImageUrl != null)
+      updateData['profileImageUrl'] = profileImageUrl;
     await firestore.collection('users').doc(uid).update(updateData);
   }
 
@@ -108,24 +109,51 @@ class UserRepository {
   }
 
   Future<void> updateImage({
-    required String imageId,
-    String? title,
-    String? description,
-    String? url,
-  }) async {
-    final updateData = <String, dynamic>{};
-    if (title != null) updateData['title'] = title;
-    if (description != null) updateData['description'] = description;
-    if (url != null) updateData['url'] = url;
+  required String imageId,
+  String? title,
+  String? description,
+  String? url,
+}) async {
+  final updateData = <String, dynamic>{};
 
-    if (updateData.isNotEmpty) {
-      await firestore.collection('images').doc(imageId).update(updateData);
-    }
+  if (title != null) updateData['title'] = title;
+  if (description != null) updateData['description'] = description;
+  if (url != null) updateData['url'] = url;
+
+  if (updateData.isNotEmpty) {
+    await firestore.collection('images').doc(imageId).update(updateData);
   }
+}
+
 
   Future<void> deleteImage(String imageId) async {
     await firestore.collection('images').doc(imageId).delete();
     await removeImageFromUser(imageId);
   }
+
+  ///////eman mohamed
+  Future<List<Map<String, dynamic>>> getUserUploadedImages() async {
+    final uid = currentUserId;
+    if (uid.isEmpty) throw Exception("No logged in user");
+
+    final userDoc = await firestore.collection('users').doc(uid).get();
+    if (!userDoc.exists) return [];
+
+    final List<dynamic> imageIds = userDoc['uploadedImages'] ?? [];
+    if (imageIds.isEmpty) return [];
+
+    final snapshots = await firestore
+        .collection('images')
+        .where(FieldPath.documentId, whereIn: imageIds)
+        .get();
+
+    return snapshots.docs.map((doc) {
+      final data = doc.data();
+      data['id'] = doc.id; 
+      return data;
+    }).toList();
+  }
   
+
+
 }

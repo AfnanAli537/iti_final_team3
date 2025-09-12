@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_final_team3/bloc/google_signup_bloc/google_bloc.dart';
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
 import 'package:iti_final_team3/bloc/profile_bloc/profile_bloc.dart';
+import 'package:iti_final_team3/screens/main_navigation.dart';
 import 'package:iti_final_team3/utils/app_colors.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/utils/form_validator.dart';
@@ -238,6 +239,33 @@ class LoginPage extends StatelessWidget {
                           child: const Text(AppStrings.signUp),
                         ),
                       ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      style: Theme.of(context)
+                          .elevatedButtonTheme
+                          .style
+                          ?.copyWith(
+                            backgroundColor: WidgetStateProperty.all(
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.grey[200]
+                                  : Colors.grey[700],
+                            ),
+                          ),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => MainNavigation(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        AppStrings.noUser,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ),
                   ],
                 ),

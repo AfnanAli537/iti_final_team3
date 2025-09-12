@@ -8,12 +8,20 @@ import 'package:iti_final_team3/widget/show_toast.dart';
 import '../bloc/upload_data/upload_bloc.dart';
 
 class UploadPage extends StatelessWidget {
-  UploadPage({super.key});
+  final Map<String, dynamic>? post; 
+  UploadPage({super.key, this.post});
+
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final picker = ImagePicker();
+
+    if (post != null) {
+      titleController.text = post!['title'] ?? '';
+      descriptionController.text = post!['description'] ?? '';
+    }
 
     Future<void> pickImage() async {
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -29,11 +37,12 @@ class UploadPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.uploadImage)),
+      appBar: AppBar(
+        title: Text(post == null ? AppStrings.uploadImage : "Edit Post"),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextField(
@@ -41,9 +50,7 @@ class UploadPage extends StatelessWidget {
               decoration: const InputDecoration(labelText: AppStrings.title),
               onChanged: (value) =>
                   context.read<UploadBloc>().add(TitleChanged(value)),
-              onTapOutside: (_) {
-                FocusScope.of(context).unfocus();
-              },
+              onTapOutside: (_) => FocusScope.of(context).unfocus(),
             ),
             const SizedBox(height: 10),
             TextField(
@@ -52,15 +59,19 @@ class UploadPage extends StatelessWidget {
                   const InputDecoration(labelText: AppStrings.description),
               onChanged: (value) =>
                   context.read<UploadBloc>().add(DescriptionChanged(value)),
-              onTapOutside: (_) {
-                FocusScope.of(context).unfocus();
-              },
+              onTapOutside: (_) => FocusScope.of(context).unfocus(),
             ),
             const SizedBox(height: 20),
+
             BlocConsumer<UploadBloc, UploadState>(
               listener: (context, state) {
                 if (state is UploadSuccess) {
-                  AppToast.showToast(AppStrings.uploadSuccessful, Colors.green);
+                  AppToast.showToast(
+                    post == null
+                        ? AppStrings.uploadSuccessful
+                        : "Update Successful",
+                    Colors.green,
+                  );
                   context.read<NavigationBloc>().add(NavigateTo(0));
                   discardImageInfo();
                 } else if (state is UploadFailure) {
@@ -72,40 +83,46 @@ class UploadPage extends StatelessWidget {
                   children: [
                     if (state.pickedImage != null)
                       Image.file(state.pickedImage!, height: 150)
+                    else if (post != null && post!['url'] != null)
+                      Image.network(post!['url'], height: 150)
                     else
                       const Text(AppStrings.noImageSelected),
+
                     const SizedBox(height: 8),
                     FloatingActionButton(
-                      onPressed: () {
-                        pickImage();
-                      },
+                      onPressed: pickImage,
                       child: const Icon(Icons.add_a_photo),
                     ),
                     const SizedBox(height: 8),
+
                     if (state is UploadSubmitting)
                       const CircularProgressIndicator()
                     else
                       ElevatedButton(
                         onPressed: () {
-                          context.read<UploadBloc>().add(UploadSubmitted());
+                          if (post == null) {
+                            context.read<UploadBloc>().add(UploadSubmitted());
+                          } else {
+                            context.read<UploadBloc>().add(UpdateSubmitted(
+                             post!['id'],
+                            ));
+                          }
                         },
-                        child: const Text(AppStrings.upload),
+                        child: Text(post == null ? "Upload" : "Update"),
                       ),
                     ElevatedButton(
-                      onPressed: () {
-                        discardImageInfo();
-                      },
+                      onPressed: discardImageInfo,
                       child: const Text(AppStrings.discard),
                     ),
-                    const SizedBox(height: 8),
                   ],
                 );
               },
             ),
-            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 }
+
+

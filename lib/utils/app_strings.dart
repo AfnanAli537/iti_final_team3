@@ -34,6 +34,7 @@ class AppStrings {
   static const String faildLogout = "Logout failed. Please try again.";
   static const String faildSign = "Registration failed. Please try again.";
   static const String loginSucess = "login successful...";
+  static const String noUser = "Explore as Guest";
 
   ///
   ///
@@ -76,5 +77,4 @@ class AppStrings {
   static const String darkmode = 'Dark';
   static const String lightmode = 'Light';
   static const String discard = 'Discard';
-
 }

@@ -20,6 +20,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     on<DescriptionChanged>(_onDescriptionChanged);
     on<ClearFormEvent>(_onClearFormEvent);
     on<UploadSubmitted>(_onUploadSubmitted);
+   on<UpdateSubmitted>(_onUpdateSubmitted);
   }
 
   void _onImagePicked(ImagePicked event, Emitter<UploadState> emit) {
@@ -66,7 +67,11 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
     try {
       final imageUrl = await imageRepository.uploadImage(state.pickedImage!);
-      final imageId = await imageRepository.saveImageData(imageUrl, state.title, state.description,);
+      final imageId = await imageRepository.saveImageData(
+        imageUrl,
+        state.title,
+        state.description,
+      );
 
       await userRepository.addImageToUser(imageId);
 
@@ -75,4 +80,33 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       emit(UploadFailure(e.toString()));
     }
   }
+Future<void> _onUpdateSubmitted(UpdateSubmitted event, Emitter<UploadState> emit) async {
+  emit(UploadSubmitting(
+    title: state.title,
+    description: state.description,
+    pickedImage: state.pickedImage,
+  ));
+
+  try {
+    String? imageUrl;
+
+    if (state.pickedImage != null) {
+      imageUrl = await imageRepository.uploadImage(state.pickedImage!);
+    }
+
+    await userRepository.updateImage(
+      imageId: event.imageId,
+      title: state.title.isNotEmpty ? state.title : null,
+      description: state.description.isNotEmpty ? state.description : null,
+      url: imageUrl,
+    );
+
+    emit(const UploadSuccess());
+  } catch (e) {
+    emit(UploadFailure(e.toString()));
+  }
+}
+
+
+
 }

@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:iti_final_team3/bloc/login_bloc/login_bloc.dart';
+import 'package:iti_final_team3/bloc/myposts/myposts_cubit.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_bloc.dart';
 import 'package:iti_final_team3/bloc/theme_bloc/theme_event.dart';
+import 'package:iti_final_team3/data/repo/user_repository.dart';
 import 'package:iti_final_team3/screens/login_screen.dart';
+import 'package:iti_final_team3/screens/my_posts.dart';
 import 'package:iti_final_team3/utils/app_strings.dart';
 import 'package:iti_final_team3/widget/profileinfo.dart';
 import 'package:iti_final_team3/widget/profilephoto.dart';
@@ -44,7 +47,6 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   const SizedBox(height: 40),
 
-                  // صورة البروفايل
                   Center(
                     child: ProfileAvatar(
                       backgroundColor: colorScheme.surface,
@@ -53,7 +55,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 40),
 
-                  // الاسم
+                  
                   ProfileInfoRow(
                     icon: Icons.person,
                     label: AppStrings.name,
@@ -68,7 +70,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // الإيميل
+                  
                   ProfileInfoRow(
                     icon: Icons.email,
                     label: AppStrings.email,
@@ -82,8 +84,35 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // تغيير المود
+                  GestureDetector(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.list_alt_sharp,
+                          color: colorScheme.primary,
+                          size: 30,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'My posts',
+                          style: textTheme.titleLarge,
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BlocProvider(
+                            create: (_) =>
+                                MyPostsCubit(UserRepository())..loadMyPosts(),
+                            child: const MyPostsPage(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -91,7 +120,9 @@ class ProfilePage extends StatelessWidget {
                         child: ProfileInfoRow(
                           icon: Icons.brightness_6,
                           label: AppStrings.mode,
-                          value: isDarkMode ? AppStrings.darkmode :AppStrings.lightmode,
+                          value: isDarkMode
+                              ? AppStrings.darkmode
+                              : AppStrings.lightmode,
                           iconColor: colorScheme.primary,
                           labelStyle: textTheme.titleLarge,
                           valueStyle: textTheme.bodyMedium?.copyWith(
@@ -110,7 +141,6 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
 
-                  // تسجيل الخروج
                   InkWell(
                     onTap: () {
                       context.read<LoginBloc>().add(LogoutEvent());
@@ -130,7 +160,6 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 50), // مساحة إضافية تحت
                 ],
               ),
             ),

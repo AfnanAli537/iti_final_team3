@@ -20,3 +20,7 @@ class ImagePicked extends UploadEvent {
 class ClearFormEvent extends UploadEvent {}
 
 class UploadSubmitted extends UploadEvent {}
+class UpdateSubmitted extends UploadEvent {
+  final String imageId;
+  UpdateSubmitted(this.imageId);
+}
